@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int atoi(const char *str) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int i = 0;
+        long long res = 0;
+        bool flag = 0;
+        while(*(str+i) == ' ')
+        {
+            i++;
+        }
+        if(*(str+i) == '-')
+        {
+            flag = 1;
+            i++;
+        }
+        if(*(str+i) == '+')
+        {
+            i++;
+        }
+        while(*(str+i) != '\0')
+        {
+            if(*(str+i) == ' ')
+            {
+                break;
+            }
+            if(*(str+i) < '0' || *(str+i) > '9')
+            {
+                break;
+            }
+            res = res*10;
+            if(2147483647-(*(str+i)-'0') < res && flag == 0)
+            {
+                return 2147483647;
+            }
+            if(2147483647-(*(str+i)-'0') < res && flag == 1)
+            {
+                return -2147483648;
+            }
+            res = res+*(str+i)-'0';
+            i++;
+        }
+        if(flag == 1)
+        {
+            res = -res;
+        }
+        return res;
+    }
+};

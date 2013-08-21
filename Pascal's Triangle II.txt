@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<int> temp;
+        temp.push_back(1);
+        if(rowIndex == 0)
+        {
+            return temp;
+        }
+        vector<vector<int> > tmp;
+        tmp.push_back(temp);
+        temp.push_back(1);
+        if(rowIndex == 1)
+        {
+            return temp;
+        }
+        tmp.push_back(temp);
+        int i;
+        for(i = 2;i <= rowIndex;i++)
+        {
+            tmp[i%2][0] = 1;
+            for(int j = 1;j <= i-2;j++)
+            {
+                tmp[i%2][j] = tmp[(i-1)%2][j]+tmp[(i-1)%2][j-1];
+            }
+            tmp[(i)%2].push_back(tmp[(i-1)%2][i-1]+tmp[(i-1)%2][i-2]);
+            tmp[(i)%2].push_back(1);
+        }
+        return tmp[(i-1)%2];
+    }
+};

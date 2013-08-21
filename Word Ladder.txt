@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        unordered_set<string> tdict = dict; 
+        if (tdict.find(end) == tdict.end()) 
+        {
+            tdict.insert(start);
+        }
+        if (tdict.find(start) != tdict.end()) 
+        {
+            tdict.erase(start);
+        }
+        queue<pair<string, int> > q;
+        q.push(make_pair(start, 1));
+        while (!q.empty()) 
+        {
+            pair<string, int>& node = q.front();
+            for (int i = 0; i < node.first.size(); ++i) 
+            {
+                string temp = node.first;
+                int count = node.second;
+                for (char c = 'a'; c <= 'z'; ++c) 
+                {
+                    if (node.first[i] == c) 
+                    {
+                        continue;
+                    }
+                    temp[i] = c;
+                    if (tdict.find(temp) != tdict.end())
+                    {
+                        if (temp == end) 
+                        {
+                            return count + 1;
+                        }
+                        q.push(make_pair(temp, count + 1));
+                        tdict.erase(temp); 
+                    }
+                }
+            }
+            q.pop();
+        }
+        return 0;
+    }
+};

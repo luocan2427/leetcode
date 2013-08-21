@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int> > combine(int n, int k) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<vector<int> > res;
+        vector<int> temp;
+        find(n,k,1,temp,res);
+        return res;
+    }
+    void find(int n,int k,int i,vector<int> temp,vector<vector<int> > &res)
+    {
+        if(temp.size() == k)
+        {
+            res.push_back(temp);
+            return ;
+        }
+        if(i > n)
+        {
+            return ;
+        }
+        find(n,k,i+1,temp,res);
+        temp.push_back(i);
+        find(n,k,i+1,temp,res);
+    }
+};

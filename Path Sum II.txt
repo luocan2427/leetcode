@@ -1,0 +1,45 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int> > pathSum(TreeNode *root, int sum) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<vector<int> > res;
+        vector<int> temp;
+        if(root == NULL)
+        {
+            return res;
+        }
+        hasSum(root,sum,res,temp);
+        return res;
+    }
+    void hasSum(TreeNode * root, int sum, vector<vector<int> > &res, vector<int> temp)
+    {
+        temp.push_back(root->val);
+        if(root->left == NULL && root->right != NULL)
+        {
+            hasSum(root->right,sum-root->val,res,temp);
+        }
+        else if(root->left != NULL && root->right == NULL)
+        {
+            hasSum(root->left,sum-root->val,res,temp);
+        }
+        else if(root->left != NULL && root->right != NULL)
+        {
+            hasSum(root->left,sum-root->val,res,temp);
+            hasSum(root->right,sum-root->val,res,temp);
+        }
+        else
+        {
+            if(sum == root->val) res.push_back(temp);
+        }
+    }
+};

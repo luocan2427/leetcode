@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int> > combinationSum(vector<int> &candidates,int target) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		sort(candidates.begin(),candidates.end());
+		vector<vector<int>> ans;
+		vector<int> path;
+		dfs(0,0,target,path,ans,candidates);
+		return ans;
+	}
+
+	void dfs(int index,int sumNow,int target,vector<int> path,vector<vector<int>>& ans,vector<int>& candidates) 
+	{
+		if(sumNow == target)
+		{
+			ans.push_back(path);
+			return;
+		}
+		if(index >= candidates.size())
+        	{
+			return;
+        	}
+		int num = (target-sumNow)/candidates[index];
+		int cur = 0;
+		for (int i = 0; i <= num; ++i)
+		{
+			dfs(index+1,sumNow+cur,target,path,ans,candidates);
+			path.push_back(candidates[index]);
+			cur += candidates[index];
+		}
+	}
+};

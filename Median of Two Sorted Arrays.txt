@@ -1,0 +1,51 @@
+class Solution {
+public:
+    double findMedianSortedArrays(int A[], int m, int B[], int n) {
+        int k = m + n; 
+        double res = findMid(A,m,B,n,k/2+1);
+        if(k%2 == 0)
+        {
+            res = (res+findMid(A,m,B,n,k/2))/2;
+        }
+        return res; 
+    }
+    double findMid(int *A,int m,int *B,int n,int k)
+    {
+        if(m == 0)
+        {        
+            return B[k-1];
+        }
+        if(n == 0)
+        {
+            return A[k-1];
+        }
+        int i = m/2;
+        int j = n/2;
+        int *p,*q,t;
+        if(A[i] <= B[j])
+        {
+            p = A;
+            q = B;
+        }
+        else
+        {
+            p = B;
+            q = A;
+            int tmp = i;
+            i = j;
+            j = tmp;
+            tmp = m;
+            m = n;
+            n = tmp;
+        }
+        t = i+j+1;
+        if(t >= k)
+        {
+            return findMid(p,m,q,j,k);
+        }
+        else
+        {
+            return findMid(p+i+1,m-i-1,q,n,k-i-1);
+        }
+    }
+};

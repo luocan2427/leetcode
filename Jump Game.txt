@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool canJump(int A[], int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int farest = 0;
+        for(int i = 0;i < n;i++)
+        {
+            if(i+A[i] >= n-1)
+            {
+                return 1;
+            }
+            if(i+A[i] > farest)
+            {
+                farest = i+A[i];
+            }
+            if(A[i] == 0 && farest <= i)
+            {
+                return 0;
+            }
+        }
+        return 0;
+    }
+};

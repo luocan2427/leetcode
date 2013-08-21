@@ -1,0 +1,51 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        stack<string> s;
+        string str;
+        for(int i = 0; i < path.size(); i++)
+        {
+            if (path[i] == '/')
+            {
+                if (str == "..")
+                {
+                    if (!s.empty())
+                    {
+                        s.pop();
+                    }
+                }
+                else if (str != "." && str != "")
+                {
+                    s.push(str);
+                }
+                str = "";
+            }
+            else
+            {
+                str += path[i];
+            }
+        }
+        if(str == "..")
+        {
+            if (!s.empty())
+                s.pop();
+        }
+        else if(str != "." && str != "") 
+        {
+            s.push(str);
+        }
+        if(s.empty())
+        {
+            return "/";
+        }
+        string res;
+        while(!s.empty())
+        {
+            res = "/" + s.top() + res;
+            s.pop();
+        }
+        return res;
+    }
+};

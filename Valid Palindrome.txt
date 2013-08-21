@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int n = stringSwitch(s);
+        if(n == 0)
+        {
+            return 1;
+        }
+        int b = 0;
+        int t = n-1;
+        while(b < t)
+        {
+            if(s[b] == s[t])
+            {
+                b++;t--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if(b < t)
+        {
+            return 0; 
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    int stringSwitch(string &s)
+    {
+        int len = 0;
+        for(int i = 0;i < s.size();i++)
+        {
+            if(s[i] >= 'A' && s[i] <= 'Z')
+            {
+                s[len] = s[i];
+                len++;
+            }
+            if(s[i] >= 'a' && s[i] <= 'z')
+            {
+                s[len] = s[i]+'A'-'a';
+                len++;
+            }
+            if(s[i] >= '0' && s[i] <= '9')
+            {
+                s[len] = s[i];
+                len++;
+            }
+        }
+        return len;
+    }
+};

@@ -1,0 +1,31 @@
+class Solution {
+public:
+    char *strStr(char *haystack, char *needle) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int n = strlen(haystack);
+        int m = strlen(needle);
+        for(int i = 0;i <= n-m;i++)
+        {
+            char *p = haystack+i;
+            char *q = needle;
+            while(*q != '\0')
+            {
+                if (*p != *q)
+                {
+                    break;
+                }
+                else
+                {
+                    p++;
+                    q++;
+                }
+            }   
+            if (*q == '\0')
+            {
+                return haystack+i;
+            }
+        }
+        return NULL;
+    }
+};

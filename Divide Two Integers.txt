@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int sign = 1;
+        if(dividend < 0) sign *= -1;
+        if(divisor < 0) sign *= -1;
+        unsigned int dvd = dividend < 0 ? -dividend : dividend;
+        unsigned int dvs = divisor < 0 ? -divisor : divisor;
+        vector<unsigned int> dvsT(32);
+        int shiftNow = 0;
+        unsigned int dvsNow = dvs;
+        while (dvsNow > 0 && dvsNow <= dvd && shiftNow < dvsT.size())
+        {
+            dvsT[shiftNow] = dvsNow;
+            dvsNow = dvsNow << 1;
+            shiftNow++;
+        }
+        shiftNow--;
+        unsigned int res = 0;
+        unsigned int dvdNow = dvd;
+        while (dvdNow > 0 && shiftNow >= 0)
+        {
+            if (dvsT[shiftNow] <= dvdNow)
+            {
+                dvdNow -= dvsT[shiftNow];
+                res += 1<<shiftNow;
+            }
+            shiftNow--;		
+        }
+        res *= sign;
+        return res;
+    }
+};

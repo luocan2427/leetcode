@@ -1,0 +1,79 @@
+bool dp[2][40000];
+class Solution {
+public:
+    bool isMatch(const char *s, const char *p) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        const char* ss = s;
+        int snum = 0;
+        while(*ss != '\0')
+        {
+            snum++; 
+            ss++;
+        }
+        const char* pp = p;
+        int pnum = 0;
+        while(*pp != '\0')
+        {
+            pnum++; 
+            pp++;
+        }
+        pp = p;
+        int num = 0;
+        while(*pp != '\0')
+        {
+            if(*pp != '*')
+            {
+                num++; 
+                pp++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if(snum < num)
+        {
+            return 0;
+        }
+        dp[1][snum] = 1;
+        bool flag = 0;
+        for(int i = snum-1;i >= 0;i--)
+        {
+            dp[1][i] = 0;
+        }
+        int i,j;
+        for(i = pnum-1;i >= 0;i--)
+        {
+            for(j = snum;j >= 0;j--)
+            {
+                if(*(s+j) == *(p+i) || *(p+i) == '?')
+                {
+                    if(j+1 <= snum)
+                    {
+                        dp[flag][j] = dp[(flag+1)%2][j+1];
+                    }
+                    else
+                    {
+                        dp[flag][j] = 0;
+                    }
+                }
+                else if(*(p+i) == '*')
+                {
+                    bool tmp = 0;
+                    for(int x = j;x <= snum;x++)
+                    {
+                        tmp = tmp || dp[(flag+1)%2][x];
+                    }
+                    dp[flag][j] = tmp;
+                }
+                else
+                {
+                    dp[flag][j] = 0;
+                }
+            }
+            flag = (flag+1)%2;
+        }
+        return dp[(flag+1)%2][0];
+    }
+};

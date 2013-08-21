@@ -1,0 +1,43 @@
+class Solution {
+private:
+    int a[10];
+    bool canUse[10];
+    string ret;
+public:
+    void dfs(int dep, int maxDep, int &k)
+    {
+        if (k == 0)
+        {
+            return;
+        }   
+        if (dep == maxDep)
+        {
+            k--;
+            if (k == 0)
+            {
+                ret = "";
+                for(int i = 0; i < maxDep; i++)
+                    ret += (char)(a[i] + '0');
+                return;
+            }
+        }
+        for(int i = 1; i <= maxDep; i++)
+        {
+            if (canUse[i])
+            {
+                canUse[i] = false;
+                a[dep] = i;
+                dfs(dep + 1, maxDep, k);
+                canUse[i] = true;
+            }
+        }
+    }
+    
+    string getPermutation(int n, int k) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        memset(canUse, true, sizeof(canUse));
+        dfs(0, n, k);    
+        return ret;
+    }
+};

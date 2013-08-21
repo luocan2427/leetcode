@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int> > subsets(vector<int> &S) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        sort(S.begin(),S.end());
+        vector<vector<int> > res;
+        vector<int> temp;
+        subset(res,0,temp,1,S);
+        return res;
+    }
+    void subset(vector<vector<int> > &res,int i,vector<int> temp,bool prv,vector<int> &S)
+    {
+        if(i == S.size())
+        {
+            res.push_back(temp);
+            return ;
+        }
+        subset(res,i+1,temp,0,S);
+        if(prv == 1 || S[i] != S[i-1])
+        {
+            temp.push_back(S[i]);
+            subset(res,i+1,temp,1,S);
+        }
+    }
+};

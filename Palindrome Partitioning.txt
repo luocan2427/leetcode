@@ -1,0 +1,82 @@
+bool palindrome[2000][2000] = {0};
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int n = s.size();
+        int b,t;
+        memset(palindrome,0,sizeof(palindrome));
+        for(int i = 0;i < n;i++)
+        {
+            b = i;
+            t = i;
+            while(b >= 0 && t <= n-1)
+            {
+                if(s[b] == s[t])
+                {
+                    palindrome[b][t] = 1;
+                    b--;
+                    t++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            b = i;
+            t = i+1;
+            while(b >= 0 && t <= n-1)
+            {
+                if(s[b] == s[t])
+                {
+                    palindrome[b][t] = 1;
+                    b--;
+                    t++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        vector<vector<string> > res;
+        for(int i = 0;i < n;i++)
+        {
+            if(palindrome[0][i] == 1)
+            {
+                vector<string> tmp;
+                tmp.push_back(s.substr(0,i+1));
+                if(i == n-1)
+                {
+                    res.push_back(tmp);
+                }
+                else
+                {
+                    search(res,s,tmp,i+1);
+                }
+            }
+        }
+        return res;
+    }
+    void search(vector<vector<string> > &res,string s,vector<string> tmp,int b)
+    {
+        int n = s.size();
+        for(int i = b;i < n;i++)
+        {
+            if(palindrome[b][i] == 1)
+            {
+                vector<string> temp = tmp;
+                temp.push_back(s.substr(b,i+1-b));
+                if(i == n-1)
+                {
+                    res.push_back(temp);
+                }
+                else
+                {
+                    search(res,s,temp,i+1);
+                }
+            }
+        }
+    }
+};

@@ -1,0 +1,72 @@
+class Solution {
+public:
+    int maxProfit(vector<int> &prices) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int n = prices.size()-1;
+        int profit[100000]={0};
+        for(int i = 0;i < n;i++)
+        {
+            profit[i] = prices[i+1]-prices[i];
+        }
+        int maxleft[100000]={0};
+        int maxright[100000]={0};
+        int max = 0;
+        int temp = 0;
+        for(int i = 0;i < n;i++)
+        {
+            if(profit[i] > 0)
+            {
+                temp += profit[i];
+                if(temp > max)
+                {
+                    max = temp;
+                }
+            }
+            else
+            {
+                temp += profit[i];
+                {
+                    if(temp < 0)
+                    {
+                        temp = 0;
+                    }
+                }
+            }
+            maxleft[i] = max;
+        }
+        max = 0;
+        temp = 0;
+        for(int i = n-1;i >= 0;i--)
+        {
+            if(profit[i] > 0)
+            {
+                temp += profit[i];
+                if(temp > max)
+                {
+                    max = temp;
+                }
+            }
+            else
+            {
+                temp += profit[i];
+                {
+                    if(temp < 0)
+                    {
+                        temp = 0;
+                    }
+                }
+            }
+            maxright[i] = max;
+        }
+        max = 0;
+        for(int i = 0;i < n;i++)
+        {
+            if(max < maxleft[i]+maxright[i+1])
+            {
+                max = maxleft[i]+maxright[i+1];
+            }
+        }
+        return max;
+    }
+};

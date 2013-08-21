@@ -1,0 +1,44 @@
+class Solution {
+public:
+    void nextPermutation(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        bool flag = false;
+        for(int i = num.size()-2;i >= 0;i--)
+        {
+            int index = findNearestLarge(i,num.size()-1,num);
+            if(index != -1)
+            {
+                swap(num[i],num[index]);
+                sort(num.begin()+i+1, num.end());
+                flag = true;
+                break;
+            }
+        }
+        if(!flag)
+        {
+            sort(num.begin(), num.end());
+        }
+    }
+
+    int findNearestLarge(int regionStart,int regionEnd ,vector<int>& num) 
+    {
+        int flag = false;
+        int minIdx = -1;
+        for(int i = regionStart;i <= regionEnd;i++)
+        {
+            if(num[i] > num[regionStart])
+            {
+                if(minIdx == -1)
+                {
+                    minIdx = i;
+                }
+                else if (num[minIdx] > num[i])
+                {
+                    minIdx = i;
+                }
+            }
+        }
+        return minIdx;
+    }
+};

@@ -1,0 +1,29 @@
+vector<string> res;
+map<string, vector<string> > dict;
+
+class Solution {
+public:
+    vector<string> anagrams(vector<string> &strs) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        res.clear();
+        dict.clear();
+        for(int i = 0;i < strs.size();i++)
+        {
+            string sortStr(strs[i]);
+            sort(sortStr.begin(),sortStr.end());
+            dict[sortStr].push_back(strs[i]);
+        } 
+        for(map<string, vector<string> >::iterator iter = dict.begin();iter != dict.end();iter++)
+        {
+            if ((iter->second).size() > 1)
+            {
+                for(int i = 0;i < (iter->second).size();i++)
+                {
+                    res.push_back((iter->second)[i]);
+                }
+            }
+        }       
+        return res;
+    }
+};

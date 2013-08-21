@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<vector<int> > generateMatrix(int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<vector<int> > result(n, vector<int>(n));
+        if(0 == n)
+        {
+            return result;
+        }
+	int beginX = 0,endX = n-1;
+	int beginY = 0,endY = n-1;
+	int cur = 1;
+	int nSquare = n*n;
+	while (true)
+        {
+		for (int i = beginX;i <= endX;i++)
+		{
+			result[beginY][i] = cur++;
+		}
+		if (++beginY > endY) break;
+		for (int i = beginY;i <= endY;i++)
+		{
+			result[i][endX] = cur++;
+		}
+		if (beginX > --endX) break;
+		for (int i = endX;i >= beginX;i--)
+		{
+			result[endY][i] = cur++;
+		}
+		if (beginY > --endY) break;
+		for (int i = endY;i >= beginY;i--)
+		{
+			result[i][beginX] = cur++;
+		}
+		if (++beginX > endX) break;
+	}
+	return result;
+    }
+};

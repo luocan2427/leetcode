@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int> &numbers, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function 
+        int n = numbers.size();  
+        vector<int> res(2, 0);
+        map<int, int> mapping;
+        for(int i = 0; i < n; i++)
+        {
+            int find = (target-numbers[i])*numbers[i];
+            if(mapping[find] > 0)
+            {
+                if(numbers[i]+numbers[mapping[find]-1] == target)
+                {
+                    res[0] = mapping[find];
+                    res[1] = i + 1;
+                    break;
+                }
+            } 
+            else 
+            {
+                mapping[find] = i+1;    
+            }
+        }
+        return res;
+    }
+};

@@ -1,0 +1,83 @@
+class Solution {
+public:
+    struct Node 
+    {
+        int level;
+        list<string> pres;
+    };
+public:
+    vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<vector<string> > paths;
+        unordered_map<string, Node> m; 
+        m[start].level = 1;
+        bool stop = false;
+        list<string> level0;
+        level0.push_back(start);
+        while (!level0.empty())
+        {
+            list<string> level1;
+            for (auto it = level0.begin(); it != level0.end(); it++) 
+            {
+                string& cur = *it;
+                int level = m[cur].level;
+                int L = cur.size();
+
+                for (int i = 0; i < L; i++) 
+                {
+                    string temp = cur;
+                    for (char c = 'a'; c <= 'z'; c++)
+                    {
+                        if (c == cur[i]) continue;
+                        temp[i] = c;
+                        if (temp == end)
+                        {
+                            m[temp].pres.push_back(cur);
+                            m[temp].level = level+1;
+                            stop = true;
+                        }
+                        else if (dict.find(temp) != dict.end()) 
+                        {
+                            if (m.find(temp) == m.end())
+                            {
+                                m[temp].pres.push_back(cur);
+                                m[temp].level = level+1;
+                                level1.push_back(temp);
+                            }
+                            else if (m[cur].level < m[temp].level)
+                            {
+                                m[temp].pres.push_back(cur);
+                            }
+                        }
+                    }
+                }
+            }
+            if (stop) break;
+            level0 = level1;
+        }
+
+        list<string> r;
+        dfs(paths, m, start, end, r);
+        return paths;   
+    }
+    void dfs(vector<vector<string> >& paths, unordered_map<string, Node>& m, const string& start, const string& node, list<string>& path) 
+    {
+        path.push_front(node);
+        if (node == start) 
+        {
+            vector<string> temp(path.begin(), path.end());
+            paths.push_back(temp);
+        } 
+        else 
+        {
+            list<string>& nodes = m[node].pres;
+            for (auto it = nodes.begin(); it != nodes.end(); ++it) 
+            {
+                list<string> tpath = path; 
+                dfs(paths, m, start, *it, tpath);
+            }
+        }
+        path.pop_front();
+    }
+};

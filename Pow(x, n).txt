@@ -1,0 +1,67 @@
+class Solution {
+public:
+    double pow(double x, int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        stack<bool> operation;
+        if(n == 0)
+        {
+            return 1;
+        }
+        bool flag = 0;
+        long long m = (long long)n;
+        if(m < 0)
+        {
+            flag = 1;
+            m = -m;
+        }
+        if(m == 1 && flag == 1)
+        {
+            return 1/x;
+        }
+        if(m == 1 && flag == 0)
+        {
+            return x;
+        }
+        while(m > 1)
+        {
+            if(m%2 == 1)
+            {
+                operation.push(1);
+                m--;
+            }
+            else
+            {
+                operation.push(0);
+                m = m/2;
+            }
+        }
+        double res;
+        if(operation.top())
+        {
+            res = x;
+        }
+        else
+        {
+            res = x*x;
+        }
+        operation.pop();
+        while(!operation.empty())
+        {
+            if(operation.top())
+            {
+                res = res*x;
+            }
+            else
+            {
+                res = res*res;
+            }
+            operation.pop();
+        }
+        if(flag == 1)
+        {
+            res = 1/res;
+        }
+        return res;
+    }
+};

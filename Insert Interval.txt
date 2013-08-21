@@ -1,0 +1,80 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+ 
+struct Cmp {
+    bool operator() (const Interval& a, const Interval& b) {
+        return a.start < b.start;
+    }  
+};
+class Solution {
+public:
+    vector<Interval> insert(vector<Interval> &intervals, Interval newInterval) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if(intervals.size() == 0)
+        {
+            intervals.push_back(newInterval);
+            return intervals;
+        }
+        Cmp cmp_;
+        sort(intervals.begin(), intervals.end(), cmp_);
+        bool flag = 0;
+        int end;
+        for(auto it = intervals.begin();it != intervals.end();it++)
+        {
+            if(flag == 0)
+            {
+                if(it->start > newInterval.start)
+                {
+                    if(it->start > newInterval.end)
+                    {
+                        intervals.insert(it,newInterval);
+                        flag = 1;
+                        break;
+                    }
+                    it->start = newInterval.start;
+                    it->end = max(it->end,newInterval.end);
+                    flag = 1;
+                    end = it->end;
+                }
+                else if(it->end >= newInterval.start)
+                {
+                    it->end = max(it->end,newInterval.end);
+                    flag = 1;
+                    end = it->end;
+                }
+            }
+            else
+            {
+                if(it->start <= end && it->end <= end)
+                {
+                    intervals.erase(it);
+                    it--;
+                }
+                else if(it->start <= end && it->end > end)
+                {
+                    end = it->end;
+                    intervals.erase(it);
+                    it--;
+                    it->end = end;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        if(flag == 0)
+        {
+            intervals.push_back(newInterval);
+        }
+        return intervals;
+    }
+};

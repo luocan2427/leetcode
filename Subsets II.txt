@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int> > subsetsWithDup(vector<int> &S) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        sort(S.begin(),S.end());
+        vector<vector<int> > res;
+        vector<int> temp;
+        subsets(res,0,temp,1,S);
+        return res;
+    }
+    void subsets(vector<vector<int> > &res,int i,vector<int> temp,bool prv,vector<int> &S)
+    {
+        if(i == S.size())
+        {
+            res.push_back(temp);
+            return ;
+        }
+        subsets(res,i+1,temp,0,S);
+        if(prv == 1 || S[i] != S[i-1])
+        {
+            temp.push_back(S[i]);
+            subsets(res,i+1,temp,1,S);
+        }
+    }
+};

@@ -1,0 +1,39 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isBalanced(TreeNode *root) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int depth;
+        return balanceJugder(root,depth);
+    }
+    bool balanceJugder(TreeNode *root,int &depth)
+    {
+        if(root == NULL)
+        {
+            depth = 0;
+            return 1;
+        }
+        int left,right;
+        bool l,r;
+        l = balanceJugder(root->left,left);
+        r = balanceJugder(root->right,right);
+        depth = max(left,right)+1;
+        if((left-right == 1 || left-right == -1 || left == right) && l && r)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+};

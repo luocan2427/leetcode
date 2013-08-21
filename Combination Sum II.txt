@@ -1,0 +1,34 @@
+class Solution {
+public:
+	vector<vector<int> > combinationSum2(vector<int> &candidates, int target) {
+		// Start typing your C/C++ solution below
+		// DO NOT write int main() function
+		sort(candidates.begin(), candidates.end());
+		vector<vector<int>> ans;
+		vector<int> path;
+		vector<bool> used(candidates.size(),false);
+		dfs(0,0,target,path,ans,candidates,used);
+		return ans;
+	}
+	void dfs(int index,int sumNow,int target,vector<int>& path,vector<vector<int>>& ans,vector<int>& candidates,vector<bool>& used) 
+	{
+		if(sumNow == target)
+		{
+			ans.push_back(path);
+			return;
+		}
+		if(index >= candidates.size())
+		{
+			return;
+		}
+		if( !(index != 0 && candidates[index] == candidates[index-1] && !used[index-1]) && sumNow+candidates[index] <= target)
+		{
+			used[index] = true;
+			path.push_back(candidates[index]);
+			dfs(index+1,sumNow+candidates[index],target,path,ans,candidates,used);
+			path.pop_back();
+			used[index] = false;
+		}
+		dfs(index+1,sumNow,target,path,ans,candidates,used);
+	}
+};

@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        stack<char> stk;
+        for(int i = 0;i < s.size();i++)
+        {
+            if(s[i] == '(' || s[i] == '[' || s[i] == '{}' || stk.empty())
+            {
+                stk.push(s[i]);
+            }
+            else
+            {
+                if(s[i] == ')' && stk.top() == '(')
+                {
+                    stk.pop();
+                    continue;
+                }
+                if(s[i] == ']' && stk.top() == '[')
+                {
+                    stk.pop();
+                    continue;
+                }
+                if(s[i] == '}' && stk.top() == '{')
+                {
+                    stk.pop();
+                    continue;
+                }
+                stk.push(s[i]);
+            }
+        }
+        if(stk.empty())
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+};
