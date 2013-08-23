@@ -1,0 +1,40 @@
+vector<vector<int>> dp;
+class Solution {
+public:
+    bool isMatch(const char *s, const char *p) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int m = strlen(s);
+        int n = strlen(p);
+        dp.assign(m+1, vector<int>(n+1, -1));    
+        return dpf(s,0,p,0);
+    }
+    bool dpf(const char *s,int i,const char *p,int j)
+    {
+        if(dp[i][j] >= 0)
+        {
+            return dp[i][j];
+        }
+        if(*p == '\0') return *s == '\0'; 
+        if(*(p+1) != '*')
+        {
+            dp[i][j] = (*s == *p || (*p == '.' && *s != '\0')) && (dp[i+1][j+1] >= 0 ? dp[i+1][j+1] : dpf(s+1,i+1,p+1,j+1));
+            return dp[i][j]; 
+        }
+        else
+        {
+            while(*s == *p || (*p == '.' && *s != '\0'))
+            {
+                if(dp[i][j+2] >= 0 ? dp[i][j+2] : dpf(s,i,p+2,j+2)) 
+                {
+                    dp[i][j] = 1;
+                    return true;
+                }
+                i++;
+                s++;
+            }
+            dp[i][j] = dp[i][j+2] >= 0 ? dp[i][j+2] : dpf(s,i,p+2,j+2);
+            return dp[i][j];
+        }
+    }
+};Enter file contents here
