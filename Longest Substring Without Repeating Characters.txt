@@ -3,32 +3,24 @@ public:
     int lengthOfLongestSubstring(string s) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        unordered_set<char> myset;
-        int sz = s.size();
-        int cur = 0;
-        int max = 0;
+        map<char,int> map;
+        int n = s.size();
+        int res = 0;
         int start = 0;
-        for(int i=0; i<sz; i++) 
+        for(int i = 0; i < n; i++) 
         {
-            char c = s[i];
-            if(myset.find(c) == myset.end()) 
+            if(map.find(s[i]) == map.end()) 
             {
-                myset.insert(c);
-                cur++;
-                max = max>cur ? max : cur;
+                map[s[i]] = i;
+                res = max(res,i+1-start);
             } 
             else
             {
-                int j=start;
-                while( s[j]!=c) 
-                {
-                    myset.erase(s[j]);
-                    j++;
-                }
-                start = j+1;
-                cur = i-start+1;
+                res = max(res, i-start + ((map[s[i]] < start)? 1 : 0 ));
+                start = max(map[s[i]]+1,start);
+                map[s[i]] = i;
             }
         }
-        return max;
+        return res;
     }
 };
