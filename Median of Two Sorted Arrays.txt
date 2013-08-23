@@ -11,41 +11,31 @@ public:
     }
     double findMid(int *A,int m,int *B,int n,int k)
     {
+        if(m > n)
+        {
+            return findMid(B,n,A,m,k);
+        }
         if(m == 0)
-        {        
+        {
             return B[k-1];
         }
-        if(n == 0)
+        if(k == 1)
         {
-            return A[k-1];
+            return min(A[0],B[0]);
         }
-        int i = m/2;
-        int j = n/2;
-        int *p,*q,t;
-        if(A[i] <= B[j])
-        {
-            p = A;
-            q = B;
+        int pa = min(m,k/2);
+        int pb = k-pa;
+        if(A[pa-1] < B[pb-1])
+        { 
+            return findMid(A+pa,m-pa,B,pb,k-pa);
         }
-        else
+        else if(A[pa-1] > B[pb-1])
         {
-            p = B;
-            q = A;
-            int tmp = i;
-            i = j;
-            j = tmp;
-            tmp = m;
-            m = n;
-            n = tmp;
-        }
-        t = i+j+1;
-        if(t >= k)
-        {
-            return findMid(p,m,q,j,k);
+            return findMid(A,pa,B+pb,n-pb,k-pb);
         }
         else
         {
-            return findMid(p+i+1,m-i-1,q,n,k-i-1);
+            return A[pa-1];
         }
     }
 };
