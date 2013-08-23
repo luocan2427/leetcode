@@ -1,39 +1,40 @@
-int step[2];
 class Solution {
 public:
     string convert(string s, int nRows) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function    
-        int steps = 2*nRows-2;
-        string res(s);
-        int resSize = 0;
+        string res = "";
+        if(nRows == 1)
+        {
+            return s;
+        }
         for(int i = 0;i < nRows;i++)
         {
-            int num = nRows-(i+1)+nRows-(i+1)-1;
-            num++;
-            step[0] = num;
-            if (step[0] == 0)
+            if(i == 0 || i == nRows-1)
             {
-                step[0] = steps;
-            }
-            step[1] = steps-num;
-            if (step[1] == 0)
-            {
-                step[1] = steps;
-            }   
-            int j = i;
-            int index = 0;
-            while(j < s.size())
-            {
-                res[resSize++] = s[j];
-                if (j == j+step[index])
+                int k = i;
+                while(k < s.size())
                 {
-                    break;
+                    res += s[k];
+                    k += 2*nRows-2;
                 }
-                j = j+step[index];
-                index = 1-index;
             }
-        }    
+            else
+            {
+                int k = i;
+                while(k < s.size())
+                {
+                    res += s[k];
+                    k += 2*nRows-2-2*i;
+                    if(k >= s.size())
+                    {
+                        break;
+                    }
+                    res += s[k];
+                    k += 2*i;
+                }
+            }
+        }
         return res;
     }
 };
