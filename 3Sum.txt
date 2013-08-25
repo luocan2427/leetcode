@@ -3,50 +3,43 @@ public:
     vector<vector<int> > threeSum(vector<int> &num) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        vector<vector<int> > ret;
-        ret.clear();
+        vector<vector<int> > res;
         sort(num.begin(),num.end());
-        for(int i = 0;i != num.size();i++)
+        for(int i = 0;i < num.size();i++)
         {
-            if(i > 0 && num[i] == num[i-1])
+            int x = i+1;
+            int y = num.size()-1;
+            while(y > x)
             {
-                continue;
-            }
-            int j,k;
-            j = i+1;
-            k = num.size()-1;
-            while(j < k)
-            {
-                if(j > i+1 && num[j] == num[j-1])
-                { 
-                    j++;
-                    continue;
-                }
-                if(k < num.size()-1 && num[k] == num[k+1])
+                if(num[x]+num[y]+num[i] == 0)
                 {
-                    k--;
-                    continue;
+                    vector<int> tmp({num[i],num[x],num[y]});
+                    res.push_back(tmp);
+                    while(y-1 >= 0 && num[y-1] == num[y])
+                    {
+                        y--;
+                    }
+                    while(x+1 < num.size() && num[x] == num[x+1])
+                    {
+                        x++;
+                    }
+                    y--;
                 }
-                int sum = num[i]+num[j]+num[k];
-                if(sum > 0)
+                else if(num[x]+num[y]+num[i] < 0)
                 {
-                    k--;
-                }
-                else if(sum < 0)
-                {
-                    j++;
+                    x++;
                 }
                 else
                 {
-                    vector<int> tmp;
-                    tmp.push_back(num[i]);
-                    tmp.push_back(num[j]);
-                    tmp.push_back(num[k]);
-                    ret.push_back(tmp);
-                    j++;
+                    y--;
                 }
+                
+            }
+            while(i+1 < num.size() && num[i] == num[i+1]) 
+            {
+                i++;
             }
         }
-        return ret;
+        return res;
     }
 };
