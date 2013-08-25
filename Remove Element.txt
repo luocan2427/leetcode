@@ -3,15 +3,15 @@ public:
     int removeElement(int A[], int n, int elem) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
+        int cur = 0;
         for(int i = 0;i < n;i++)
         {
-            if(A[i] == elem)
+            if(A[i] != elem)
             {
-                swap(A[i],A[n-1]);
-                n--;
-                i--;
+                A[cur] = A[i];
+                cur++;
             }
         }
-        return n;
+        return cur;
     }
 };
