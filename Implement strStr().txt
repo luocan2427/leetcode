@@ -5,27 +5,72 @@ public:
         // DO NOT write int main() function
         int n = strlen(haystack);
         int m = strlen(needle);
-        for(int i = 0;i <= n-m;i++)
+        if(m == 0)
         {
-            char *p = haystack+i;
-            char *q = needle;
-            while(*q != '\0')
+            return haystack;
+        }
+        int next[m+1];
+        nextf(next,needle);
+        int i = 0;
+        int j = 0;
+        int cur = 0;
+        while(j <= n)
+        {
+            if(i == m)
             {
-                if (*p != *q)
+                return haystack+cur;
+            }
+            if(haystack[j] == needle[i])
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                if(next[i] == -1)
                 {
-                    break;
+                    i = 0;
+                    j++;
+                    cur = j;
+                }
+                else if(next[i] == 0)
+                {
+                    i = 0;
+                    cur = j;
                 }
                 else
                 {
-                    p++;
-                    q++;
+                    cur = j-next[i];
+                    i = next[i];
                 }
-            }   
-            if (*q == '\0')
-            {
-                return haystack+i;
             }
         }
         return NULL;
+    }
+    void nextf(int next[],char *needle)
+    {
+        int k = -1;
+        int j = 0;
+        next[0] = -1;
+        while(j < strlen(needle))
+        {
+            if(k == -1 || needle[k] == needle[j])
+            {
+                k++;
+                j++;
+                if(j < strlen(needle) && needle[k] == needle[j])
+                {
+                    next[j] = next[k];
+                }            
+                else
+                {
+                    next[j] = k;
+                }
+            }
+            else
+            {
+                k = next[k];
+            }
+        }
     }
 };
