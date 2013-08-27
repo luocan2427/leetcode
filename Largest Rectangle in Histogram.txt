@@ -37,8 +37,6 @@ public:
                             max = temp1*(i);
                         }
                     }
-                    stk.push(make_pair(temp1,temp2));
-                    stk.pop();
                 }
                 stk.push(make_pair(height[i],i));
             }
@@ -46,7 +44,6 @@ public:
         if(!stk.empty())
         {
             int t = height.size();
-            int h;
             while(!stk.empty())
             {
                 int temp1 = stk.top().first;
@@ -66,13 +63,6 @@ public:
                         max = temp1*(t);
                     }
                 }
-                stk.push(make_pair(temp1,temp2));
-                h = stk.top().first;
-                stk.pop();
-            }
-            if(h*t > max)
-            {
-                max = h*t;
             }
         }
         return max;
