@@ -1,8 +1,4 @@
 class Solution {
-//classified discussion
-//1. Based on the property of rotated array, there may or may not have one sorted sequence 
-//when one sequence is divided into two parts  
-//2. make decision under all these cases
 public:
     bool search(int A[], int n, int target) {
 		// Start typing your C/C++ solution below
