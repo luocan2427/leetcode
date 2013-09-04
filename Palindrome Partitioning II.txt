@@ -3,44 +3,24 @@ class Solution {
 public:
     int minCut(string s) {
         int n = s.size();
-        int b,t;
-        //memset(dp,false,sizeof(dp));
-        for(int i = 0;i < 2000;i++)
-        {
-            for(int j = 0;j < 2000;j++)
-            {
-                dp[i][j] = 0;
-            }
-        }
         for(int i = 0;i < n;i++)
         {
-            b = i;
-            t = i;
-            while(b >= 0 && t <= n-1)
+            for(int j = 0;i+j < n;j++)
             {
-                if(s[b] == s[t])
+                if(s[j] != s[i+j])
                 {
-                    dp[b][t] = true;
-                    b--;t++;
+                    dp[j][i+j] = 0;
                 }
                 else
                 {
-                    break;
-                }
-            }
-            
-            b = i;
-            t = i+1;
-            while(b >= 0 && t <= n-1)
-            {
-                if(s[b] == s[t])
-                {
-                    dp[b][t] = true;
-                    b--;t++;
-                }
-                else
-                {
-                    break;
+                    if(i >= 2)
+                    {
+                        dp[j][i+j] = dp[j+1][i+j-1];
+                    }
+                    else
+                    {
+                        dp[j][i+j] = 1;
+                    }
                 }
             }
         }
