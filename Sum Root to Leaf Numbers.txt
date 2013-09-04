@@ -12,29 +12,32 @@ public:
     int sumNumbers(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(root != NULL)
-        {
-            return sum(root,root->val);
-        }
-        else
+        int res = 0;
+        queue<pair<int,TreeNode *> > que;
+        if(root == NULL)
         {
             return 0;
         }
-    }
-    int sum(TreeNode *root,int base)
-    {
-        int res = 0;
-        if(root->right != NULL)
+        que.push(make_pair(root->val,root));
+        while(!que.empty())
         {
-            res += sum(root->right,base*10+root->right->val);
-        }
-        if(root->left != NULL)
-        {
-            res += sum(root->left,base*10+root->left->val);
-        }
-        if(root->left == NULL && root->right == NULL)
-        {
-            res += base;    
+            pair<int,TreeNode *> tmp = que.front();
+            que.pop();
+            if(tmp.second->left == NULL && tmp.second->right == NULL)
+            {
+                res += tmp.first;
+            }
+            else
+            {
+                if(tmp.second->left != NULL)
+                {
+                    que.push(make_pair(tmp.first*10+tmp.second->left->val,tmp.second->left));
+                }
+                if(tmp.second->right != NULL)
+                {
+                    que.push(make_pair(tmp.first*10+tmp.second->right->val,tmp.second->right));
+                }
+            }
         }
         return res;
     }
