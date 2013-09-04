@@ -12,10 +12,6 @@ public:
     int maxPathSum(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(root == NULL)
-        {
-            return 0;
-        }
         int maxPath = root->val;
         maxSum(root, maxPath);
         return maxPath;
@@ -29,35 +25,11 @@ public:
         }
         int left = maxSum(root->left,maxPath);
         int right = maxSum(root->right,maxPath);
-        
         int res = root->val;
-        int max = root->val;
-        int temp;
-        if(left > right)
-        {
-            temp = left;
-        }
-        else
-        {
-            temp = right;
-        }
-        if(temp > 0)
-        {
-            res += temp;
-        }
-        
-        if(left > 0)
-        {
-            max += left;
-        }
-        if(right > 0)
-        {
-            max += right;
-        }
-        if(max > maxPath)
-        {
-            maxPath = max;
-        }
+        int tmp = root->val;
+        res += max(0,max(left,right));
+        tmp += max(0,left)+max(0,right);
+        maxPath = max(tmp,maxPath);
         return res;
     }
 };
