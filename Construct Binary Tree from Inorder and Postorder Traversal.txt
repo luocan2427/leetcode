@@ -12,32 +12,21 @@ public:
     TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(postorder.size() == 0)
+        TreeNode *root = NULL;
+        TreeNode **cur = &root;
+        stack<TreeNode *> stk;
+        for(int i = postorder.size()-1, j = i;i >= 0;i--)
         {
-            return NULL;
+            *cur = new TreeNode(postorder[i]);
+            stk.push(*cur);
+            cur = &((*cur)->right);
+            while(!stk.empty() && stk.top()->val == inorder[j])
+            {
+                cur = &(stk.top()->left);
+                stk.pop();
+                j--;
+            }
         }
-        return creatTree(inorder,postorder,0,inorder.size()-1,0,postorder.size()-1);
-    }
-    TreeNode *creatTree(vector<int> &inorder, vector<int> &postorder,int inl,int inr,int postl,int postr)
-    {
-        if(postl > postr || inl > inr)
-        {
-            return NULL;
-        }
-        if(postl == postr)
-        {
-            return new TreeNode(postorder[postr]); 
-        }
-        TreeNode *root = new TreeNode(postorder[postr]);
-        int i = inl;
-        while(inorder[i] != postorder[postr])
-        {
-            i++;
-        }
-        int inl2 = i-1;
-        int inr0 = i+1;
-        root->left = creatTree(inorder,postorder,inl,inl2,postl,postl+inl2-inl);
-        root->right = creatTree(inorder,postorder,inr0,inr,postl+inl2-inl+1,postr-1);
         return root;
     }
 };
