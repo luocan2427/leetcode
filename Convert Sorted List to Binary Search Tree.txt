@@ -1,50 +1,30 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-/**
- * Definition for binary tree
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
 class Solution {
 public:
     TreeNode *sortedListToBST(ListNode *head) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(head == NULL)
+        int n = 0;
+        ListNode *temp = head; 
+        while(temp != NULL)
+        {
+            n++;
+            temp = temp->next;
+        }
+        return builder(head,0,n-1);
+    }
+    TreeNode *builder(ListNode *&cur,int b,int t)
+    {
+        if(b > t)
         {
             return NULL;
         }
-        ListNode *tail = head->next;
-        ListNode *mid = head;
-        ListNode *pre = mid;
-        while(tail != NULL && tail->next != NULL)
-        {
-            tail = tail->next->next;
-            pre = mid;
-            mid = mid->next;
-        }
-        if(tail == mid->next)
-        {
-            TreeNode *root = new TreeNode(mid->val);
-            if(tail != NULL)
-            {
-                root->right = new TreeNode(tail->val);
-            }
-            return root;
-        }
-        TreeNode *root = new TreeNode(mid->val);
-        root->right = sortedListToBST(mid->next);
-        pre->next = NULL;
-        root->left = sortedListToBST(head);
+        int m = (b+t)/2;
+        TreeNode *left = builder(cur,b,m-1);
+        TreeNode *root = new TreeNode(cur->val);
+        cur = cur->next;
+        TreeNode *right = builder(cur,m+1,t);
+        root->left = left;
+        root->right = right;
+        return root;
     }
 };
