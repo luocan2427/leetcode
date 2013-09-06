@@ -1,0 +1,66 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        queue<pair<int, TreeNode*>> que;
+        stack<int> stk;
+        vector<vector<int> > res;
+        que.push(make_pair(0,root));
+        int n = 0;
+        vector<int> cur;
+        while(!stk.empty)
+        {
+            pair<int, TreeNode *> tmp = que.front();
+            que.pop();
+            if(tmp.first == n)
+            {
+                if(tmp.second->left != NULL)
+                    que.push(make_pair(n+1,tmp.second->left));
+                if(tmp.second->right!= NULL)
+                que.push(make_pair(n+1,tmp.second->right));
+                if(n^1 == 0)
+                {
+                    cur.push_back(tmp.second->val);
+                }
+                else
+                {
+                    stk.push(tmp.second->val);
+                }
+            }
+            else
+            {
+                if(n^1 == 1)
+                {
+                    while(!stk.empty())
+                    {
+                        cur.push_back(stk.top());
+                        stk.pop();
+                    }
+                }
+                res.push_back(cur);
+                cur.clear();
+                n = tmp.first;
+            }
+        }
+        if(n^1 == 1)
+        {
+            while(!stk.empty())
+            {
+                cur.push_back(stk.top());
+                stk.pop();
+            }
+        }
+        res.push_back(cur);
+        return res;
+    }
+};
