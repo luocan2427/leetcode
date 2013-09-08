@@ -12,69 +12,71 @@ public:
     vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        queue<pair<TreeNode *,int> > que;
-        que.push(make_pair(root,1));
-        int base = 1;
+        queue<pair<int, TreeNode*>> que;
+        stack<int> stk;
         vector<vector<int> > res;
-        vector<int> temp;
         if(root == NULL)
         {
             return res;
         }
+        que.push(make_pair(0,root));
+        int n = 0;
+        vector<int> cur;
         while(!que.empty())
         {
-            TreeNode *tmp = que.front().first;
-            if(tmp == NULL)
-            {
-                break;
-            }
-            int line = que.front().second;
+            pair<int, TreeNode *> tmp = que.front();
             que.pop();
-            if(tmp->left != NULL)
+            if(tmp.first == n)
             {
-                que.push(make_pair(tmp->left,line+1));
-            }
-            if(tmp->right != NULL)
-            {
-                que.push(make_pair(tmp->right,line+1));
-            }
-            if(line == base)
-            {
-                temp.push_back(tmp->val);
-            }
-            else
-            {
-                base = line;
-                if(line%2 == 1)
+                if(tmp.second->left != NULL)
+                    que.push(make_pair(n+1,tmp.second->left));
+                if(tmp.second->right!= NULL)
+                    que.push(make_pair(n+1,tmp.second->right));
+                if(n%2 == 0)
                 {
-                    vector<int> temp1;
-                    for(int i = temp.size()-1;i >= 0;i--)
-                    {
-                        temp1.push_back(temp[i]);
-                    }
-                    res.push_back(temp1);
+                    cur.push_back(tmp.second->val);
                 }
                 else
                 {
-                    res.push_back(temp);
+                    stk.push(tmp.second->val);
                 }
-                temp.clear();
-                temp.push_back(tmp->val);
             }
-        }
-        if(base%2 == 0)
-        {
-            vector<int> temp1;
-            for(int i = temp.size()-1;i >= 0;i--)
+            else
             {
-                temp1.push_back(temp[i]);
+                if(n%2 == 1)
+                {
+                    while(!stk.empty())
+                    {
+                        cur.push_back(stk.top());
+                        stk.pop();
+                    }
+                }
+                res.push_back(cur);
+                cur.clear();
+                n = tmp.first;
+                if(tmp.second->left != NULL)
+                    que.push(make_pair(n+1,tmp.second->left));
+                if(tmp.second->right!= NULL)
+                    que.push(make_pair(n+1,tmp.second->right));
+                if(n%2 == 0)
+                {
+                    cur.push_back(tmp.second->val);
+                }
+                else
+                {
+                    stk.push(tmp.second->val);
+                }
             }
-            res.push_back(temp1);
         }
-        else
+        if(n%2 == 1)
         {
-            res.push_back(temp);
+            while(!stk.empty())
+            {
+                cur.push_back(stk.top());
+                stk.pop();
+            }
         }
+        res.push_back(cur);
         return res;
     }
 };
