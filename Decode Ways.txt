@@ -1,33 +1,38 @@
-int dp[10000];
+unordered_map<int,int> dpmap;
 class Solution {
 public:
     int numDecodings(string s) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        memset(dp,0,sizeof(dp));
-        int n = s.size();
-        if(n == 0)
+        dpmap.clear();
+        if(s == "")
         {
             return 0;
         }
-        dp[n] = 1;
-        if(s[n-1] != '0')
+        return dp(0,s);
+    }
+    int dp(int n,string &s)
+    {
+        if(dpmap.find(n) != dpmap.end())
         {
-            dp[n-1] = 1;
+            return dpmap[n];
         }
-        for(int i = n-2;i >= 0;i--)
+        if(n >= s.size())
         {
-            int num = 0;
-            if(s.substr(i,2) <= "26" && s[i] != '0')
-            {
-                num = num+dp[i+2];
-            }
-            if(s[i] != '0')
-            {
-                num = num+dp[i+1];
-            }
-            dp[i] = num;
+            dpmap[n] = 1;
+            return 1;
         }
-        return dp[0];
+        if(s[n] == '0')
+        {
+            dpmap[n] = 0;
+            return 0;
+        }
+        int res = dp(n+1,s);
+        if(n+1 < s.size() && (s[n]-'0')*10+s[n+1]-'0' <= 26)
+        {
+            res += dp(n+2,s);
+        }
+        dpmap[n] = res;
+        return res;
     }
 };
