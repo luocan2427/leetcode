@@ -4,38 +4,28 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<string> res;
-        string ip = "";
-        if(s.size() > 12)
-        {
-            return res;
-        }
-        split(s,res,ip,0);
+        string cur = "";
+        dfs(s,res,cur,0,0,0,0);
         return res;
     }
-    void split(string s,vector<string> &res,string ip,int i)
+    void dfs(string s,vector<string> &res,string cur,int b,int t,int num,int depth)
     {
-        if(i == 3)
+        if(depth == 4)
         {
-            if((s.size() == 1) || (s[0] != '0' && s.size() == 2) || (s.size() == 3 && s <= "255" && s[0] != '0'))
+            if(b == s.size())
             {
-                ip = ip+s;
-                res.push_back(ip);
+                res.push_back(cur.substr(0,cur.size()-1));
             }
+            return;
         }
-        if(s.size() >= 1)
+        if(t >= s.size() || num*10+s[t]-'0' > 255)
         {
-            string ip1 = ip+s[0]+".";
-            split(s.substr(1,s.size()-1),res,ip1,i+1);
+            return;
         }
-        if(s.size() >= 2 && s[0] != '0')
+        if(s[b] != '0')
         {
-            string ip1 = ip+s[0]+s[1]+".";
-            split(s.substr(2,s.size()-2),res,ip1,i+1);
+            dfs(s,res,cur,b,t+1,num*10+s[t]-'0',depth);
         }
-        if(s.size() >= 3 && s.substr(0,3) <= "255" && s[0] != '0')
-        {
-            string ip1 = ip+s.substr(0,3)+".";
-            split(s.substr(3,s.size()-3),res,ip1,i+1);
-        }
+        dfs(s,res,cur+s.substr(b,t+1-b)+".",t+1,t+1,0,depth+1);
     }
 };
