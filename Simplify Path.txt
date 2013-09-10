@@ -3,49 +3,40 @@ public:
     string simplifyPath(string path) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        stack<string> s;
-        string str;
-        for(int i = 0; i < path.size(); i++)
+        deque<string> que;
+        int b = 0,t = 0;
+        while(t < path.size())
         {
-            if (path[i] == '/')
+            if(path[t] == '/')
             {
-                if (str == "..")
+                string cur = path.substr(b,t-b);
+                if(cur == ".." && !que.empty())
                 {
-                    if (!s.empty())
-                    {
-                        s.pop();
-                    }
+                    que.pop_back();
                 }
-                else if (str != "." && str != "")
+                else if(cur != "" && cur != "." && cur != "..")
                 {
-                    s.push(str);
+                    que.push_back(cur);
                 }
-                str = "";
+                b = t+1;
             }
-            else
-            {
-                str += path[i];
-            }
+            t++;
         }
-        if(str == "..")
+        string cur = path.substr(b,t-b);
+        if(cur == ".." && !que.empty())
         {
-            if (!s.empty())
-                s.pop();
+            que.pop_back();
         }
-        else if(str != "." && str != "") 
+        else if(cur != "" && cur != "." && cur != "..")
         {
-            s.push(str);
+            que.push_back(cur);
         }
-        if(s.empty())
+        string res = "/";
+        while(!que.empty())
         {
-            return "/";
+            res = res+que.front()+"/";
+            que.pop_front();
         }
-        string res;
-        while(!s.empty())
-        {
-            res = "/" + s.top() + res;
-            s.pop();
-        }
-        return res;
+        return res.substr(0,res.size()-1 > 0 ? res.size()-1 : 1);
     }
 };
