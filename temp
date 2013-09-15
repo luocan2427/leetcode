@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> findSubstring(string S, vector<string> &L) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        unordered_map<string> mymap;
+        vector<int> res;
+        for(int i = 0;i+L.size()*L[0].size*() < L.size();i++)
+        {
+            mymap[L[i]] = 1;
+        }
+        for(int i = 0;i < S.size();i++)
+        {
+            if(check(S,mymap,i,L[0].size())
+            {
+                res.push_back(i);
+            }
+        }
+        return res;
+    }
+    bool checker(string &S,unordered_map<string> temp,int p,int k)
+    {
+        int n = temp.size();
+        for(int i = 0;i < temp.size();i++)
+        {
+            if(temp.find(S.substr(p+k*i,k)) != temp.end() && temp[S.substr(p+k*i,k)] == 1)
+            {
+                temp[S.substr(p+k*i,k)]--;
+                n--;   
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if(n == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};
