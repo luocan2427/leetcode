@@ -3,27 +3,34 @@ public:
     vector<int> findSubstring(string S, vector<string> &L) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        unordered_map<string> mymap;
+        unordered_map<string,int> mymap;
         vector<int> res;
-        for(int i = 0;i+L.size()*L[0].size*() < L.size();i++)
+        for(int i = 0;i < L.size();i++)
         {
-            mymap[L[i]] = 1;
+            if(mymap[L[i]] > 0)
+            {
+                mymap[L[i]]++;
+            }
+            else
+            {
+                mymap[L[i]] = 1;
+            }
         }
-        for(int i = 0;i < S.size();i++)
+        for(int i = 0;i+L.size()*L[0].size() <= S.size();i++)
         {
-            if(check(S,mymap,i,L[0].size())
+            if(checker(S,mymap,i,L[0].size(),L.size()))
             {
                 res.push_back(i);
             }
         }
         return res;
     }
-    bool checker(string &S,unordered_map<string> temp,int p,int k)
+    bool checker(string &S,unordered_map<string,int> temp,int p,int k,int n)
     {
-        int n = temp.size();
-        for(int i = 0;i < temp.size();i++)
+        int f = n;
+        for(int i = 0;i < f;i++)
         {
-            if(temp.find(S.substr(p+k*i,k)) != temp.end() && temp[S.substr(p+k*i,k)] == 1)
+            if(temp[S.substr(p+k*i,k)] > 0)
             {
                 temp[S.substr(p+k*i,k)]--;
                 n--;   
