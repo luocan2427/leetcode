@@ -1,24 +1,43 @@
+unordered_map<const char*,const char*> mymap;
 class Solution {
 public:
-    bool isMatch(const char *s, const char *p) {
+    bool isMatch(const char *s, const char *p)
+    {
+        mymap.clear();
+        return Match(s,p);
+    }
+    bool Match(const char *s, const char *p) {
         // Start typing your C/C++ solution below
-        // DO NOT write int main() function    
-        if(*p == '\0') return *s == '\0'; 
-        if(*(p+1) != '*')
+        // DO NOT write int main() function
+        if(mymap[s] == p)
         {
-             return (*s == *p || (*p == '.' && *s != '\0')) && isMatch(s+1,p+1); 
+            return 1;
         }
-        else
+        if(*p == '\0')
+        {
+            if(*s == '\0') mymap[s] = p;
+            return *s == '\0';
+        }
+        if(*(p+1) == '*')
         {
             while(*s == *p || (*p == '.' && *s != '\0'))
             {
                 if(isMatch(s,p+2)) 
                 {
+                    mymap[s] = p;
                     return true;
                 }
                 s++;
             }
-            return isMatch(s,p+2);
+            bool tmp = isMatch(s,p+2);
+            if(tmp) mymap[s] = p;
+            return tmp;
+        }
+        else
+        {
+            bool tmp = (*s == *p || (*p == '.' && *s != '\0')) && isMatch(s+1,p+1);
+            if(tmp) mymap[s] = p;
+            return tmp; 
         }
     }
 };
