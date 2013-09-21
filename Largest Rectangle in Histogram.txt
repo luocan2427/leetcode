@@ -10,15 +10,11 @@ public:
         stack<pair<int,int> > stk;
         stk.push(make_pair(height[0],0));
         int max = 0;
-        for(int i = 1;i < height.size();i++)
+        for(int i = 1;i <= height.size();i++)
         {
-            if(height[i] >= stk.top().first)
+            if(i == height.size() || height[i] < stk.top().first)
             {
-                stk.push(make_pair(height[i],i));
-            }
-            else
-            {
-                while(!stk.empty() && stk.top().first > height[i])
+                while(!stk.empty() && (i == height.size() || stk.top().first > height[i]))
                 {
                     int temp1 = stk.top().first;
                     int temp2 = stk.top().second;
@@ -38,31 +34,10 @@ public:
                         }
                     }
                 }
-                stk.push(make_pair(height[i],i));
             }
-        }
-        if(!stk.empty())
-        {
-            int t = height.size();
-            while(!stk.empty())
+            if(i < height.size())
             {
-                int temp1 = stk.top().first;
-                int temp2 = stk.top().second;
-                stk.pop();
-                if(!stk.empty())
-                {
-                    if(temp1*(t-stk.top().second-1) > max)
-                    {
-                        max = temp1*(t-stk.top().second-1);
-                    }
-                }
-                else
-                {
-                    if(temp1*(t) > max)
-                    {
-                        max = temp1*(t);
-                    }
-                }
+                stk.push(make_pair(height[i],i));
             }
         }
         return max;
