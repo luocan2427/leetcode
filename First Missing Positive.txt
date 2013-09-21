@@ -3,34 +3,16 @@ public:
     int firstMissingPositive(int A[], int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(n == 0)
+        for(int i = 0;i < n;i++)
         {
-            return 1;
-        }
-        if(n == 1)
-        {
-            if(A[0] != 1)
+            while(A[i] > 0 && A[i] < n && A[i]-1 != i && A[A[i]-1] != A[i])
             {
-                return 1;
-            }
-            else
-            {
-                return 2;
+                swap(A[A[i]-1],A[i]);
             }
         }
         for(int i = 0;i < n;i++)
         {
-            if(A[i] > 0 && A[i] < n && A[i] != i+1 && A[A[i]-1] != A[i])
-            {
-                int tmp = A[A[i]-1];
-                A[A[i]-1] = A[i];
-                A[i] = tmp;
-                i--;
-            }
-        }
-        for(int i = 0;i < n;i++)
-        {
-            if(A[i] != i+1)
+            if(A[i]-1 != i)
             {
                 return i+1;
             }
