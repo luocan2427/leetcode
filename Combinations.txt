@@ -4,21 +4,22 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<vector<int> > res;
-        vector<int> temp;
-        find(n,k,1,temp,res);
+        vector<int> tmp;
+        dfs(res,tmp,0,k,n);
         return res;
     }
-    void find(int n,int k,int i,vector<int> temp,vector<vector<int> > &res)
+    void dfs(vector<vector<int> > &res,vector<int> tmp,int cur,int k,int n)
     {
-        if(temp.size() == k)
+        if(tmp.size() == k)
         {
-            res.push_back(temp);
-            return ;
-        }
-        if(i > n)
+            res.push_back(tmp);
             return;
-        find(n,k,i+1,temp,res);
-        temp.push_back(i);
-        find(n,k,i+1,temp,res);
+        }
+        if(cur != n)
+        {
+            dfs(res,tmp,cur+1,k,n);
+            tmp.push_back(cur+1);
+            dfs(res,tmp,cur+1,k,n);
+        }
     }
 };
