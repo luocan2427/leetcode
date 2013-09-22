@@ -12,59 +12,41 @@ public:
     vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        queue<pair<int, TreeNode*>> que;
-        stack<int> stk;
+        queue<pair<TreeNode *,int> > que;
+        que.push(make_pair(root,0));
         vector<vector<int> > res;
-        if(root == NULL)
-        {
-            return res;
-        }
-        que.push(make_pair(0,root));
-        int n = 0;
-        vector<int> cur;
+        vector<int> tmp;
+        int cur = 0;
         while(!que.empty())
         {
-            pair<int, TreeNode *> tmp = que.front();
-            if(tmp.first == n)
+            if(que.front().first == NULL)
             {
-                if(tmp.second->left != NULL)
-                    que.push(make_pair(n+1,tmp.second->left));
-                if(tmp.second->right!= NULL)
-                    que.push(make_pair(n+1,tmp.second->right));
-                if(n%2 == 0)
-                {
-                    cur.push_back(tmp.second->val);
-                }
-                else
-                {
-                    stk.push(tmp.second->val);
-                }
                 que.pop();
+                continue;
+            }
+            if(que.front().second == cur)
+            {
+                tmp.push_back(que.front().first->val);
             }
             else
             {
-                if(n%2 == 1)
-                {
-                    while(!stk.empty())
-                    {
-                        cur.push_back(stk.top());
-                        stk.pop();
-                    }
-                }
-                res.push_back(cur);
-                cur.clear();
-                n = tmp.first;
+                cur = que.front().second;
+                if(cur%2 == 0)
+                    reverse(tmp.begin(),tmp.end());
+                res.push_back(tmp);
+                tmp.clear();
+                tmp.push_back(que.front().first->val);
             }
+            que.push(make_pair(que.front().first->left,que.front().second+1));
+            que.push(make_pair(que.front().first->right,que.front().second+1));
+            que.pop();
         }
-        if(n%2 == 1)
+        if(!tmp.empty())
         {
-            while(!stk.empty())
-            {
-                cur.push_back(stk.top());
-                stk.pop();
-            }
+            if(cur%2 == 1)
+                reverse(tmp.begin(),tmp.end());
+            res.push_back(tmp);
         }
-        res.push_back(cur);
         return res;
     }
 };
