@@ -16,9 +16,7 @@ public:
             return ;
         }
         if(i > n)
-        {
-            return ;
-        }
+            return;
         find(n,k,i+1,temp,res);
         temp.push_back(i);
         find(n,k,i+1,temp,res);
