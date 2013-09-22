@@ -12,24 +12,15 @@ public:
     TreeNode *sortedArrayToBST(vector<int> &num) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int n = num.size();
-        if(n == 0)
-        {
-            return NULL;
-        }
-        return toBST(num,0,n-1);
+        return toBST(num,0,num.size()-1);
     }
     TreeNode *toBST(vector<int> &num,int b,int t)
     {
+        if(b > t)
+            return NULL;
         if(b == t)
         {
             TreeNode *root = new TreeNode(num[b]);
-            return root;
-        }
-        if(b == t-1)
-        {
-            TreeNode *root = new TreeNode(num[b]);
-            root->right = new TreeNode(num[t]);
             return root;
         }
         TreeNode *root = new TreeNode(num[(b+t)/2]);
