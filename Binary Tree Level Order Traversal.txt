@@ -13,44 +13,34 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         queue<pair<TreeNode *,int> > que;
-        que.push(make_pair(root,1));
-        int base = 1;
+        que.push(make_pair(root,0));
         vector<vector<int> > res;
-        vector<int> temp;
-        if(root == NULL)
-        {
-            return res;
-        }
+        vector<int> tmp;
+        int cur = 0;
         while(!que.empty())
         {
-            TreeNode *tmp = que.front().first;
-            if(tmp == NULL)
+            if(que.front().first == NULL)
             {
-                break;
+                que.pop();
+                continue;
             }
-            int line = que.front().second;
-            que.pop();
-            if(tmp->left != NULL)
+            if(que.front().second == cur)
             {
-                que.push(make_pair(tmp->left,line+1));
-            }
-            if(tmp->right != NULL)
-            {
-                que.push(make_pair(tmp->right,line+1));
-            }
-            if(line == base)
-            {
-                temp.push_back(tmp->val);
+                tmp.push_back(que.front().first->val);
             }
             else
             {
-                base = line;
-                res.push_back(temp);
-                temp.clear();
-                temp.push_back(tmp->val);
+                cur = que.front().second;
+                res.push_back(tmp);
+                tmp.clear();
+                tmp.push_back(que.front().first->val);
             }
+            que.push(make_pair(que.front().first->left,que.front().second+1));
+            que.push(make_pair(que.front().first->right,que.front().second+1));
+            que.pop();
         }
-        res.push_back(temp);
+        if(!tmp.empty())
+            res.push_back(tmp);
         return res;
     }
 };
