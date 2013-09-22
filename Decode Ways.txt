@@ -1,38 +1,24 @@
-unordered_map<int,int> dpmap;
 class Solution {
 public:
     int numDecodings(string s) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        dpmap.clear();
-        if(s == "")
-        {
+        if(s.size() == 0)
             return 0;
-        }
-        return dp(0,s);
-    }
-    int dp(int n,string &s)
-    {
-        if(dpmap.find(n) != dpmap.end())
+        vector<int> dp(s.size()+1,0);
+        dp[s.size()] = 1;
+        s[s.size()-1] == '0' ? dp[s.size()-1] = 0 : dp[s.size()-1] = 1;
+        for(int i = s.size()-2;i >= 0;i--)
         {
-            return dpmap[n];
+            if(s[i]-'0' == 0)
+                dp[i] = 0;
+            else
+            {
+                dp[i] += dp[i+1];
+                if((s[i]-'0')*10+s[i+1]-'0' <= 26)
+                    dp[i] += dp[i+2];
+            }
         }
-        if(n >= s.size())
-        {
-            dpmap[n] = 1;
-            return 1;
-        }
-        if(s[n] == '0')
-        {
-            dpmap[n] = 0;
-            return 0;
-        }
-        int res = dp(n+1,s);
-        if(n+1 < s.size() && (s[n]-'0')*10+s[n+1]-'0' <= 26)
-        {
-            res += dp(n+2,s);
-        }
-        dpmap[n] = res;
-        return res;
+        return dp[0];
     }
 };
