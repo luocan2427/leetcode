@@ -23,9 +23,8 @@ public:
             return 1;
         }
         int left,right;
-        bool l,r;
-        l = balanceJugder(root->left,left);
-        r = balanceJugder(root->right,right);
+        bool l = balanceJugder(root->left,left);
+        bool r = balanceJugder(root->right,right);
         depth = max(left,right)+1;
         if((left-right == 1 || left-right == -1 || left == right) && l && r)
         {
