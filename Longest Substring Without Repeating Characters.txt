@@ -3,22 +3,23 @@ public:
     int lengthOfLongestSubstring(string s) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        map<char,int> map;
-        int n = s.size();
-        int res = 0;
-        int start = 0;
-        for(int i = 0; i < n; i++) 
+        int res = 0,head = 0,tail = 0,cur = 0;
+        int dp[256] = {0};
+        while(tail < s.size())
         {
-            if(map.find(s[i]) == map.end()) 
+            if(dp[s[tail]] == 0)
             {
-                map[s[i]] = i;
-                res = max(res,i+1-start);
-            } 
+                dp[s[tail++]]++;
+                res = max(res,++cur);
+            }
             else
             {
-                res = max(res, i-start + ((map[s[i]] < start)? 1 : 0 ));
-                start = max(map[s[i]]+1,start);
-                map[s[i]] = i;
+                while(s[head] != s[tail])
+                {
+                    dp[s[head++]]--;
+                    cur--;
+                }
+                head++;tail++;
             }
         }
         return res;
