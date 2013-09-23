@@ -19,16 +19,10 @@ public:
     vector<Interval> merge(vector<Interval> &intervals) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        
         Cmp cmp_;
         sort(intervals.begin(), intervals.end(), cmp_);
-        if(intervals.size() == 0)
-        {
-            return intervals;
-        }
-        int b = intervals[0].start;
-        int t = intervals[0].end;
-        for(auto it = intervals.begin()+1;it != intervals.end();it++)
+        int b = -1,t = -1;
+        for(auto it = intervals.begin();it != intervals.end();it++)
         {
             if(it->start <= t)
             {
