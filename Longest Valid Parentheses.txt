@@ -3,44 +3,22 @@ public:
     int longestValidParentheses(string s) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int n = s.size();
-        vector<bool> tmp(n,0);
         stack<pair<char,int> > stk;
-        for(int i = 0;i < n;i++)
+        for(int i = 0;i < s.size();i++)
         {
-            if(s[i] == '(' || stk.empty())
-            {
-                stk.push(make_pair(s[i],i));
-            }
+            if(s[i] == ')' && !stk.empty() && stk.top().first == '(')
+                stk.pop();
             else
-            {
-                if(stk.top().first == '(')
-                {
-                    tmp[i] = 1;
-                    tmp[stk.top().second] = 1;
-                    stk.pop();
-                }
-            }
+                stk.push(make_pair(s[i],i));
         }
-        int max = 0;
-        for(int i = 0;i < n;i++)
+        int res = 0,cur = s.size();
+        while(!stk.empty())
         {
-            if(tmp[i] == 1)
-            {
-                int temp = 0;
-                {
-                    while(i < n && tmp[i] == 1)
-                    {
-                        temp++;
-                        i++;
-                    }
-                }
-                if(temp > max)
-                {
-                    max = temp;
-                }
-            }
+            res = max(res,cur-stk.top().second-1);
+            cur = stk.top().second;
+            stk.pop();
         }
-        return max;
+        res = max(res,cur);
+        return res;
     }
 };
