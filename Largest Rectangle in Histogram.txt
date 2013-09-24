@@ -3,16 +3,11 @@ public:
     int largestRectangleArea(vector<int> &height) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(height.size() == 0)
-        {
-            return 0;
-        }
         stack<pair<int,int> > stk;
-        stk.push(make_pair(height[0],0));
-        int max = 0;
-        for(int i = 1;i <= height.size();i++)
+        int res = 0;
+        for(int i = 0;i <= height.size();i++)
         {
-            if(i == height.size() || height[i] < stk.top().first)
+            if(i == height.size() || (!stk.empty() && height[i] < stk.top().first))
             {
                 while(!stk.empty() && (i == height.size() || stk.top().first > height[i]))
                 {
@@ -20,26 +15,14 @@ public:
                     int temp2 = stk.top().second;
                     stk.pop();
                     if(!stk.empty())
-                    {
-                        if(temp1*(i-stk.top().second-1) > max)
-                        {
-                            max = temp1*(i-stk.top().second-1);
-                        }
-                    }
+                        res = max(res,temp1*(i-stk.top().second-1));
                     else
-                    {
-                        if(temp1*(i) > max)
-                        {
-                            max = temp1*(i);
-                        }
-                    }
+                        res = max(res,temp1*(i));
                 }
             }
             if(i < height.size())
-            {
                 stk.push(make_pair(height[i],i));
-            }
         }
-        return max;
+        return res;
     }
 };
