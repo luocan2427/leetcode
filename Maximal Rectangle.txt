@@ -4,92 +4,39 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         if (matrix.size() == 0)
-        {
             return 0;
-        }   
         vector<int> a(matrix[0].size(), 0);
-        vector<int> width(matrix[0].size());
-        int maxArea = 0;
+        int res = 0;
         for(int i = 0; i < matrix.size(); i++)
         {
             for(int j = 0; j < matrix[i].size(); j++)
-            {
                 a[j] = matrix[i][j] == '1' ? a[j] + 1 : 0;
-            }   
-            maxArea = max(maxArea, calArea(a, width));
+            res = max(res,largestRectangleArea(a));
         }
-        return maxArea;
+        return res;
     }
-    int calArea(vector<int> &a, vector<int> &width)
+    int largestRectangleArea(vector<int> &height) 
     {
-        for(int i = 0; i < width.size(); i++)
+        stack<pair<int,int> > stk;
+        int res = 0;
+        for(int i = 0;i <= height.size();i++)
         {
-            width[i] = 0;
-        }   
-        stack<int> s;
-        for(int i = 0; i < a.size(); i++)
-        {
-            if (s.empty())
+            if(i == height.size() || (!stk.empty() && height[i] < stk.top().first))
             {
-                s.push(i);
-                width[i] = 0;
-            }
-            else
-            {
-                while(!s.empty())
+                while(!stk.empty() && (i == height.size() || stk.top().first > height[i]))
                 {
-                    if (a[s.top()] < a[i])
-                    {
-                        width[i] = i - s.top() - 1;
-                        s.push(i);
-                        break;
-                    }
+                    int temp1 = stk.top().first;
+                    int temp2 = stk.top().second;
+                    stk.pop();
+                    if(!stk.empty())
+                        res = max(res,temp1*(i-stk.top().second-1));
                     else
-                    {
-                        s.pop();
-                    }
-                }
-                if (s.empty())
-                {
-                    s.push(i);
-                    width[i] = i;
+                        res = max(res,temp1*(i));
                 }
             }
+            if(i < height.size())
+                stk.push(make_pair(height[i],i));
         }
-        while(!s.empty()) s.pop();
-        for(int i = a.size()-1;i >= 0;i--)
-        {
-            if (s.empty())
-            {
-                s.push(i);
-                width[i] = 0;
-            }
-            else
-            {
-                while(!s.empty())
-                {
-                    if (a[i] > a[s.top()])
-                    {
-                        width[i] += s.top()-i-1;
-                        s.push(i);
-                        break;
-                    }
-                    else
-                        s.pop();
-                }
-                
-                if (s.empty())
-                {
-                    width[i] += a.size()-i-1;
-                    s.push(i);
-                }
-            }
-        }
-        int maxArea = 0;    
-        for(int i = 0; i < width.size(); i++)
-        {
-            maxArea = max(maxArea, (width[i]+1)*a[i]);
-        }   
-        return maxArea;
+        return res;
     }
 };
