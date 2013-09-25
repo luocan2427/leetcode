@@ -13,33 +13,18 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<vector<int> > res;
-        vector<int> temp;
-        if(root == NULL)
-        {
-            return res;
-        }
-        hasSum(root,sum,res,temp);
+        vector<int> cur;
+        if(root != NULL)
+            hasPathSum(res,cur,root,sum);
         return res;
     }
-    void hasSum(TreeNode * root, int sum, vector<vector<int> > &res, vector<int> temp)
-    {
-        temp.push_back(root->val);
-        if(root->left == NULL && root->right != NULL)
-        {
-            hasSum(root->right,sum-root->val,res,temp);
-        }
-        else if(root->left != NULL && root->right == NULL)
-        {
-            hasSum(root->left,sum-root->val,res,temp);
-        }
-        else if(root->left != NULL && root->right != NULL)
-        {
-            hasSum(root->left,sum-root->val,res,temp);
-            hasSum(root->right,sum-root->val,res,temp);
-        }
-        else
-        {
-            if(sum == root->val) res.push_back(temp);
-        }
+    void hasPathSum(vector<vector<int> > &res,vector<int> cur,TreeNode *root, int sum) {
+        cur.push_back(root->val);
+        if(root->left != NULL)
+            hasPathSum(res,cur,root->left,sum-root->val);
+        if(root->right != NULL)
+            hasPathSum(res,cur,root->right,sum-root->val);
+        if(root->left == NULL && root->right == NULL && sum == root->val)
+            res.push_back(cur);
     }
 };
