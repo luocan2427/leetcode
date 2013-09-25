@@ -22,14 +22,12 @@ public:
         if(b == s.size())
             res.push_back(tmp);
         for(int i = b;i < s.size();i++)
-        {
             if(palindrome[b][i] == 1)
             {
                 vector<string> temp = tmp;
                 temp.push_back(s.substr(b,i+1-b));
                 search(res,s,temp,i+1);
             }
-        }
     }
     void findPal(string &s, int left, int right)
     {
