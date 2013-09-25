@@ -11,27 +11,24 @@ public:
     ListNode *partition(ListNode *head, int x) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        ListNode *temp = head;
-        ListNode *less = new ListNode(0);
-        ListNode *lesstail = less;
-        ListNode *greater = new ListNode(0);
-        ListNode *greatertail = greater;
-        while(temp != NULL)
+        ListNode *low,*high;
+        ListNode **lowcur = &low,**highcur = &high;
+        while(head != NULL)
         {
-            if(temp->val < x)
-            {
-                lesstail->next = temp;
-                lesstail = lesstail->next;
+            if(head->val < x)
+            { 
+                *lowcur = head;
+                lowcur = &((*lowcur)->next);
             }
             else
             {
-                greatertail->next = temp;
-                greatertail = greatertail->next;
+                *highcur = head;
+                highcur = &((*highcur)->next);
             }
-            temp = temp->next;
+            head = head->next;
         }
-        lesstail->next = greater->next;
-        greatertail->next = NULL;
-        return less->next;
+        *highcur = NULL;
+        *lowcur = high;
+        return low;
     }
 };
