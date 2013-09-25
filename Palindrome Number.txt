@@ -4,30 +4,20 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         if(x < 0)
+            return false;
+        int base = 1,tmp = x;
+        while(tmp/10 != 0)
         {
-            return 0;
+            tmp /= 10;
+            base *= 10;
         }
-        return x == reverse(x);
-    }
-    int reverse(int x) 
-    {
-        bool flag = 0;
-        if(x < 0)
+        int low = 10;
+        while(low <= base)
         {
-            flag = 1;
-            x = -x;
+            if((x/base)%10 != x%low/(low/10))
+                return false;
+            low *= 10;base /= 10;
         }
-        int res = 0;
-        while(x != 0)
-        {
-            res *= 10;
-            res += x%10;
-            x /= 10;
-        }
-        if(flag == 1)
-        {
-            res = -res;
-        }
-        return res;
+        return true;
     }
 };
