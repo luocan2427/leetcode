@@ -9,74 +9,35 @@ public:
         memset(palindrome,0,sizeof(palindrome));
         for(int i = 0;i < n;i++)
         {
-            b = i;
-            t = i;
-            while(b >= 0 && t <= n-1)
-            {
-                if(s[b] == s[t])
-                {
-                    palindrome[b][t] = 1;
-                    b--;
-                    t++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            b = i;
-            t = i+1;
-            while(b >= 0 && t <= n-1)
-            {
-                if(s[b] == s[t])
-                {
-                    palindrome[b][t] = 1;
-                    b--;
-                    t++;
-                }
-                else
-                {
-                    break;
-                }
-            }
+            findPal(s,i,i);
+            findPal(s,i,i+1);
         }
         vector<vector<string> > res;
-        for(int i = 0;i < n;i++)
-        {
-            if(palindrome[0][i] == 1)
-            {
-                vector<string> tmp;
-                tmp.push_back(s.substr(0,i+1));
-                if(i == n-1)
-                {
-                    res.push_back(tmp);
-                }
-                else
-                {
-                    search(res,s,tmp,i+1);
-                }
-            }
-        }
+        vector<string> tmp;
+        search(res,s,tmp,0);
         return res;
     }
     void search(vector<vector<string> > &res,string s,vector<string> tmp,int b)
     {
-        int n = s.size();
-        for(int i = b;i < n;i++)
+        if(b == s.size())
+            res.push_back(tmp);
+        for(int i = b;i < s.size();i++)
         {
             if(palindrome[b][i] == 1)
             {
                 vector<string> temp = tmp;
                 temp.push_back(s.substr(b,i+1-b));
-                if(i == n-1)
-                {
-                    res.push_back(temp);
-                }
-                else
-                {
-                    search(res,s,temp,i+1);
-                }
+                search(res,s,temp,i+1);
             }
         }
+    }
+    void findPal(string &s, int left, int right)
+    {
+        while(0 <= left && right < s.size() && s[left] == s[right])
+        {
+            palindrome[left][right] = 1;
+            left--;
+            right++;
+        }        
     }
 };
