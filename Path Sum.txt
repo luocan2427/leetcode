@@ -13,29 +13,14 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         if(root == NULL)
-        {
             return 0;
-        }
-        return hasSum(root,sum);
-    }
-    bool hasSum(TreeNode * root, int sum)
-    {
-        if(root->left == NULL && root->right != NULL)
-        {
-            return hasSum(root->right,sum-root->val);
-        }
-        else if(root->left != NULL && root->right == NULL)
-        {
-            return hasSum(root->left,sum-root->val);
-        }
-        else if(root->left != NULL && root->right != NULL)
-        {
-            return hasSum(root->left,sum-root->val) || hasSum(root->right,sum-root->val);
-        }
-        else
-        {
-            if(sum == root->val) return 1;
-            else return 0;
-        }
+        bool res = 0;
+        if(root->left != NULL)
+            res = res || hasPathSum(root->left,sum-root->val);
+        if(root->right != NULL)
+            res = res || hasPathSum(root->right,sum-root->val);
+        if(root->left == NULL && root->right == NULL)
+            return sum == root->val;
+        return res;
     }
 };
