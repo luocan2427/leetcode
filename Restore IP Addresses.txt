@@ -13,19 +13,13 @@ public:
         if(depth == 4)
         {
             if(b == s.size())
-            {
                 res.push_back(cur.substr(0,cur.size()-1));
-            }
             return;
         }
         if(t >= s.size() || num*10+s[t]-'0' > 255)
-        {
             return;
-        }
         if(s[b] != '0')
-        {
             dfs(s,res,cur,b,t+1,num*10+s[t]-'0',depth);
-        }
         dfs(s,res,cur+s.substr(b,t+1-b)+".",t+1,t+1,0,depth+1);
     }
 };
