@@ -5,9 +5,7 @@ public:
         // DO NOT write int main() function
         stack<bool> operation;
         if(n == 0)
-        {
             return 1;
-        }
         bool flag = 0;
         long long m = (long long)n;
         if(m < 0)
