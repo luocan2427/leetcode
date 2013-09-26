@@ -11,30 +11,27 @@ public:
     void connect(TreeLinkNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        queue<TreeLinkNode *> que;
-        que.push(root);
-        int no = 1;
-        int line = 1;
-        while(!que.empty())
+        queue<pair<TreeLinkNode *, int> > myque;
+        myque.push(make_pair(root,-1));
+        int cur = 0;
+        TreeLinkNode *pre = root;
+        while(!myque.empty())
         {
-            TreeLinkNode *tmp = que.front();
-            if(tmp == NULL)
+            pair<TreeLinkNode *, int> tmp = myque.front();
+            myque.pop();
+            if(tmp.first != NULL)
             {
-                break;
+                if(cur == tmp.second && tmp.first != root)
+                    pre->next = tmp.first;
+                else
+                    pre->next = NULL;
+                cur = tmp.second;
+                pre = tmp.first;
+                myque.push(make_pair(tmp.first->left,tmp.second+1));
+                myque.push(make_pair(tmp.first->right,tmp.second+1));
             }
-            que.pop();
-            que.push(tmp->left);
-            que.push(tmp->right);
-            if(no == line)
-            {
-                tmp->next = NULL;
-                line = line*2+1;
-            }
-            else
-            {
-                tmp->next = que.front();
-            }
-            no++;
         }
+        if(pre != NULL)
+            pre->next = NULL;
     }
 };
