@@ -6,9 +6,7 @@ public:
         int n = strlen(haystack);
         int m = strlen(needle);
         if(m == 0)
-        {
             return haystack;
-        }
         int next[m+1];
         nextf(next,needle);
         int i = 0;
@@ -17,9 +15,7 @@ public:
         while(j <= n)
         {
             if(i == m)
-            {
                 return haystack+cur;
-            }
             if(haystack[j] == needle[i])
             {
                 i++;
@@ -59,18 +55,12 @@ public:
                 k++;
                 j++;
                 if(j < strlen(needle) && needle[k] == needle[j])
-                {
                     next[j] = next[k];
-                }            
                 else
-                {
                     next[j] = k;
-                }
             }
             else
-            {
                 k = next[k];
-            }
         }
     }
 };
