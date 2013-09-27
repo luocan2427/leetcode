@@ -11,14 +11,9 @@ public:
     ListNode *reverseKGroup(ListNode *head, int k) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(k <= 1) 
-        {
-            return head;
-        }
-    	ListNode dummy(-1);
-        dummy.next = head;
-        ListNode* prev = &dummy;
-        ListNode* p = dummy.next;
+    	ListNode res(-1);
+        res.next = head;
+        ListNode* prev = &res,*p = res.next;
         int cnt = 1;
         while(p != NULL)
         {
@@ -30,7 +25,7 @@ public:
             p = p->next;
             cnt++;
         }
-        return dummy.next;
+        return res.next;
     }
     void reverse_range(ListNode* prev,ListNode* end,ListNode*& p)
     {
