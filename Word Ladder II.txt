@@ -46,9 +46,7 @@ public:
                                 level1.push_back(temp);
                             }
                             else if (m[cur].level < m[temp].level)
-                            {
                                 m[temp].pres.push_back(cur);
-                            }
                         }
                     }
                 }
