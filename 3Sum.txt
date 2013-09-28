@@ -15,30 +15,15 @@ public:
                 {
                     vector<int> tmp({num[i],num[x],num[y]});
                     res.push_back(tmp);
-                    while(y-1 >= 0 && num[y-1] == num[y])
-                    {
-                        y--;
-                    }
-                    while(x+1 < num.size() && num[x] == num[x+1])
-                    {
-                        x++;
-                    }
+                    while(y-1 >= 0 && num[y-1] == num[y]) y--;
+                    while(x+1 < num.size() && num[x] == num[x+1]) x++;
                     y--;
                 }
-                else if(num[x]+num[y]+num[i] < 0)
-                {
-                    x++;
-                }
-                else
-                {
-                    y--;
-                }
+                else if(num[x]+num[y]+num[i] < 0) x++;
+                else y--;
                 
             }
-            while(i+1 < num.size() && num[i] == num[i+1]) 
-            {
-                i++;
-            }
+            while(i+1 < num.size() && num[i] == num[i+1]) i++; 
         }
         return res;
     }
