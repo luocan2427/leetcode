@@ -3,54 +3,22 @@ public:
     bool isPalindrome(string s) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int n = stringSwitch(s);
-        if(n == 0)
+        int l = 0,r = s.size()-1;
+        while(l < r)
         {
-            return 1;
-        }
-        int b = 0;
-        int t = n-1;
-        while(b < t)
-        {
-            if(s[b] == s[t])
-            {
-                b++;t--;
-            }
+            if(!ischara(s[l])) l++;
+            else if(!ischara(s[r])) r--;
             else
             {
-                break;
+                if(s[l] != s[r] && s[l]-'a'+'A' != s[r] && s[l] != s[r]-'a'+'A') return false;
+                l++;r--;
             }
         }
-        if(b < t)
-        {
-            return 0; 
-        }
-        else
-        {
-            return 1;
-        }
+        return true;
     }
-    int stringSwitch(string &s)
+    bool ischara(char p)
     {
-        int len = 0;
-        for(int i = 0;i < s.size();i++)
-        {
-            if(s[i] >= 'A' && s[i] <= 'Z')
-            {
-                s[len] = s[i];
-                len++;
-            }
-            if(s[i] >= 'a' && s[i] <= 'z')
-            {
-                s[len] = s[i]+'A'-'a';
-                len++;
-            }
-            if(s[i] >= '0' && s[i] <= '9')
-            {
-                s[len] = s[i];
-                len++;
-            }
-        }
-        return len;
+        if((p >= 'A' && p <= 'Z') || (p >= 'a' && p <= 'z') || (p >= '0' && p <= '9')) return true;
+        else return false;
     }
 };
