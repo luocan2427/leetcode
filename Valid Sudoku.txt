@@ -1,67 +1,36 @@
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char> > &board) {
-		// Start typing your C/C++ solution below
-		// DO NOT write int main() function
-		return CheckBlock(board) && CheckStrip(board);
-	}
-	bool CheckRectangle(vector<vector<char> > &board,int x1,int y1,int x2,int y2)
-	{
-		vector<int> cnt(256,0);
-		for (int row = x1;row <= x2;row++)
-		{
-			for (int col = y1;col <= y2;col++)
-			{
-				char now = board[row][col];
-				if (now >= '0' && now <= '9')
-				{
-					if(++cnt[now] > 1)
-                    			{
-						return false;
-                   			 }
-				}
-				else if(now != '.')
-				{
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	bool CheckBlock(vector<vector<char> > &board) 
-	{
-		int n = board.size();
-		for (int i = 0;i < 3;i++)
-		{
-			for (int j = 0;j < 3;j++)
-			{
-				if(!CheckRectangle(board,i*3,j*3,i*3+2,j*3+2))
-				{
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	bool CheckStrip(vector<vector<char> > &board) 
-	{
-		int n = board.size();
-		for(int row = 0;row < n;row++)
-		{
-			if(!CheckRectangle(board,row,0,row,n-1))
-			{
-				return false;
-			}
-		}
-		for(int col = 0;col < n;col++)
-		{
-			if(!CheckRectangle(board,0,col,n-1,col))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        for(int i = 0;i < 9;i++)
+        {
+            int dp[256] = {0};
+            int dp0[256] = {0};
+            for(int j = 0;j < 9;j++)
+            {
+                if(board[i][j] != '.')
+                    if(dp[board[i][j]] == 0) dp[board[i][j]]++;
+                    else return false;
+                if(board[j][i] != '.')
+                    if(dp0[board[j][i]] == 0) dp0[board[j][i]]++;
+                    else return false;
+            }
+        }
+        for(int i = 0;i < 9;i += 3)
+            for(int j = 0;j < 9;j += 3)
+            {
+                int dp[256] = {0};
+                for(int x = i;x < i+3;x++)
+                    for(int y = j;y < j+3;y++)
+                    {
+                        if(board[x][y] != '.')
+                        {
+                            if(dp[board[x][y]] == 0) dp[board[x][y]]++;
+                            else return false;
+                        }
+                    }
+            }
+        return true;
+    }
 };
