@@ -21,7 +21,6 @@ public:
                 }
                 else if(num[x]+num[y]+num[i] < 0) x++;
                 else y--;
-                
             }
             while(i+1 < num.size() && num[i] == num[i+1]) i++; 
         }
