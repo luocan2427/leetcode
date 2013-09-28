@@ -3,26 +3,14 @@ public:
     void sortColors(int A[], int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int white = 0;
-        int red = 0;
-        int blue = 0;
+        int color[3] = {0};
         for(int i = 0;i < n;i++)
-        {
-            if(A[i] == 0) red++;
-            else if(A[i] == 1) white++;
-            else blue++;
-        }
-        for(int i = 0;i < red;i++)
-        {
+            color[A[i]]++;
+        for(int i = 0;i < color[0];i++)
             A[i] = 0;
-        }
-        for(int i = red;i < red+white;i++)
-        {
+        for(int i = color[0];i < color[0]+color[1];i++)
             A[i] = 1;
-        }
-        for(int i = red+white;i < red+white+blue;i++)
-        {
+        for(int i = color[0]+color[1];i < n;i++)
             A[i] = 2;
-        }
     }
 };
