@@ -5,31 +5,18 @@ public:
         // DO NOT write int main() function
         deque<string> que;
         int b = 0,t = 0;
-        while(t < path.size())
+        while(t <= path.size())
         {
-            if(path[t] == '/')
+            if(path[t] == '/' || t == path.size())
             {
                 string cur = path.substr(b,t-b);
                 if(cur == ".." && !que.empty())
-                {
                     que.pop_back();
-                }
                 else if(cur != "" && cur != "." && cur != "..")
-                {
                     que.push_back(cur);
-                }
                 b = t+1;
             }
             t++;
-        }
-        string cur = path.substr(b,t-b);
-        if(cur == ".." && !que.empty())
-        {
-            que.pop_back();
-        }
-        else if(cur != "" && cur != "." && cur != "..")
-        {
-            que.push_back(cur);
         }
         string res = "/";
         while(!que.empty())
