@@ -1,98 +1,48 @@
 class Solution {
 public:
     bool isNumber(const char *s) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
-        if (s == NULL)
-        {
+        int p = 0;
+        skipWhiteSpace(s, p);
+        if(!checkSignedDecimal(s, p))
             return false;
-        }
-            
-        while(isspace(*s))
-        {
-            s++;
-        }
-            
-        if (*s == '+' || *s == '-')
-        {
-            s++;
-        }
-        bool eAppear = false;
-        bool dotAppear = false;
-        bool firstPart = false;
-        bool secondPart = false;
-        bool spaceAppear = false;
-        while(*s != '\0')
-        {
-            if (*s == '.')
-            {
-                if (dotAppear || eAppear || spaceAppear)
-                {
-                    return false;
-                }
-                else
-                {
-                    dotAppear = true;
-                }
-            }
-            else if (*s == 'e' || *s == 'E')
-            {
-                if (eAppear || !firstPart || spaceAppear)
-                {
-                    return false;
-                }
-                else
-                {
-                    eAppear = true;
-                }
-            }
-            else if (isdigit(*s))
-            {
-                if (spaceAppear)
-                {
-                    return false;
-                }   
-                if (!eAppear)
-                {
-                    firstPart = true;
-                }
-                else
-                {
-                    secondPart = true;
-                }
-            }
-            else if (*s == '+' || *s == '-')
-            {
-                if (spaceAppear)
-                {
-                    return false;
-                }   
-                if (!eAppear || !(*(s-1) == 'e' || *(s-1) == 'E'))
-                {
-                    return false;
-                }
-            }
-            else if (isspace(*s))
-            {
-                spaceAppear = true;
-            }
-            else
-            {
-                return false;
-            }   
-            s++;            
-        }
-        if (!firstPart)
-        {
+        if((s[p] == 'e' || s[p] == 'E') && !checkSignedInteger(s, ++p))
             return false;
-        }
-        else if (eAppear && !secondPart)
-        {
+        skipWhiteSpace(s, p);
+        if(s[p])
             return false;
-        }
+        return true;
+    }
+    
+    bool checkSignedDecimal(const char *s, int &p) {
+        if(s[p] == '+' || s[p] == '-')
+            return checkUnsignedDecimal(s, ++p);
         else
-        {
-            return true;
-        }
+            return checkUnsignedDecimal(s, p);
+    }
+    
+    bool checkUnsignedDecimal(const char *s, int &p) {
+        bool intBeforeRadix = checkUnsignedInteger(s, p);
+        bool intAfterRadix = false;
+        if(s[p] == '.')
+            intAfterRadix = checkUnsignedInteger(s, ++p);
+        return intBeforeRadix || intAfterRadix;
+    }
+    
+    bool checkSignedInteger(const char *s, int &p) {
+        if(s[p] == '+' || s[p] == '-')
+            return checkUnsignedInteger(s, ++p);
+        else 
+            return checkUnsignedInteger(s, p);
+    }
+    
+    bool checkUnsignedInteger(const char *s, int &p) {
+        bool ok = false;
+        while(s[p] && isdigit(s[p])) 
+            ok = true, p++;
+        return ok;
+    }
+    
+    void skipWhiteSpace(const char *s, int &p) {
+        while(s[p] == ' ') p++;
     }
 };
