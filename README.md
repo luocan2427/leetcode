@@ -1,3 +1,3 @@
 leetcode
 ========
-They are my leetcode solutiongs.
+They are my leetcode solutions.
