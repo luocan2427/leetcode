@@ -4,50 +4,29 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<vector<string> > res;
-        vector<string> temp(n,string(n,'.'));
-        search(res,temp,0);
+        vector<string> temp;
+        int upper = (1<<n)-1 ;
+		Queen(0,0,0,res,upper,temp,n);
         return res;
     }
-    void search(vector<vector<string> > &res,vector<string> &cur,int n)
-    {
-        if(n == cur.size())
-        {
-            for(int i = 0;i < cur.size();i++)
-                for(int j = 0;j < cur.size();j++)
-                    if(cur[i][j] == 'L')  cur[i][j] = '.';
-            res.push_back(cur);
-            return;
-        }
-        for(int i = 0;i < cur.size();i++)
-        {
-            if(cur[i][n] == '.')
-            {
-                vector<string> tmp = cur;
-                setL(tmp,i,n);
-                search(res,tmp,n+1);
-            }
-        }
-    }
-    void setL(vector<string> &cur,int x,int y)
-    {
-        for(int i = 0;i < cur.size();i++)
-        {
-            cur[i][y] = 'L';
-            cur[x][i] = 'L';
-        }
-        int i = 0;
-        while(x+i < cur.size() || x-i >= 0 || y+i < cur.size() || y-i >= 0)
-        {
-            if(x+i < cur.size() && y+i < cur.size())
-                cur[x+i][y+i] = 'L';
-            if(x-i >= 0 && y-i >= 0)
-                cur[x-i][y-i] = 'L';
-            if(x+i < cur.size() && y-i >= 0)
-                cur[x+i][y-i] = 'L';
-            if(x-i >= 0 && y+i < cur.size())
-            cur[x-i][y+i] = 'L';
-            i++;
-        }
-        cur[x][y] = 'Q';
-    }
+	void Queen(int row,int ld,int rd,vector<vector<string> > &res,int &upper,vector<string> cur,int n)
+	{
+		int all,p;
+		if(row!=upper)
+		{
+			all = upper & (~(row | ld |rd));
+			while(all !=0 )
+			{
+				p = all & (-all);
+				string s(n,'.');
+				s[log2(p)] = 'Q';
+				cur.push_back(s);
+				all = all - p;
+				Queen(row+p,(ld+p)<<1,(rd+p)>>1,res,upper,cur,n);
+				cur.erase(cur.end());
+			}
+		}
+		else 
+		    res.push_back(cur);
+	}
 };
