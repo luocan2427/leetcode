@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int candy(vector<int> &ratings) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        vector<int> candy(ratings.size(),0);
+        for(int i = 0;i < ratings.size();i++)
+        {
+            if((i == 0 || ratings[i-1] >= ratings[i]) && (i == ratings.size()-1 || ratings[i] <= ratings[i+1]))
+            {
+                candy[i] = 1;
+                int k = 1;
+                while(i-k >= 0 && ratings[i-k] >= ratings[i-k+1])
+                {
+                    int flag = candy[i-k];
+                    if(ratings[i-k] > ratings[i-k+1])
+                        candy[i-k] = max(candy[i-k],candy[i-k+1]+1);
+                    else
+                        candy[i-k] = max(candy[i-k],candy[i-k+1]);
+                    if(flag) break;
+                    k++;
+                }
+                k = 1;
+                while(i+k < ratings.size() && ratings[i+k] >= ratings[i+k-1])
+                {
+                    if(ratings[i+k] > ratings[i+k-1])
+                        candy[i+k] = candy[i+k-1]+1;
+                    else
+                        candy[i+k] = candy[i+k-1];
+                    k++;
+                }
+            }
+        }
+        int res = 0;
+        for(int i = 0;i < ratings.size();i++) res += candy[i];
+        return res;
+    }
+};
