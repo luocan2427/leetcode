@@ -1,35 +1,32 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+struct Cmp {
+    bool operator() (const pair<int, ListNode*> a, const pair<int, ListNode*> b) {
+        return a.first > b.first;
+    }  
+};
 class Solution {
 public:
     ListNode *mergeKLists(vector<ListNode *> &lists) {
-        set<pair<int, ListNode*> > heap;
+        priority_queue<pair<int, ListNode*> ,vector<pair<int, ListNode*> >,Cmp > heap;
         for(int i = 0;i < lists.size();i++) 
-        {
             if(lists[i] != NULL)
-            {
-                heap.insert(make_pair(lists[i]->val,lists[i]));
-            }
-        }
+                heap.push(make_pair(lists[i]->val,lists[i]));
         ListNode *head = NULL;
-        ListNode *tail = head;
+        ListNode **cur = &head;
         while(!heap.empty()) 
         {
-            ListNode *cur = heap.begin()->second;
-            heap.erase(heap.begin());
-            if(head == NULL)
-            {
-                head = cur;
-                tail = head;
-            }
-            else
-            {
-                tail->next = cur;
-                tail = cur;
-            }
-            cur = cur->next;
-            if (cur != NULL) 
-            {
-                heap.insert(make_pair(cur->val,cur));
-            }
+            *cur = heap.top().second;
+            cur = &((*cur)->next);
+            heap.pop();
+            if (*cur != NULL)
+                heap.push(make_pair((*cur)->val,*cur));
         }
         return head;
     }
