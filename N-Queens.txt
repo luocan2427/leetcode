@@ -1,61 +1,53 @@
-vector<vector<string> > ret;
-int a[100];
-bool canUse[100];
-
 class Solution {
 public:
     vector<vector<string> > solveNQueens(int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        ret.clear();
-        memset(canUse,true,sizeof(canUse));
-        solve(0,n);
-        return ret;
+        vector<vector<string> > res;
+        vector<string> temp(n,string(n,'.'));
+        search(res,temp,0);
+        return res;
     }
-    bool check(int y, int n)
+    void search(vector<vector<string> > &res,vector<string> &cur,int n)
     {
-        for(int i = 0; i < n; i++)
+        if(n == cur.size())
         {
-            if (abs(i-n) == abs(y-a[i]))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    void solve(int dep, int maxDep)
-    {
-        if (dep == maxDep)
-        {
-            vector<string> ans;
-            for(int i = 0; i < maxDep; i++)
-            {
-                string s;
-                for(int j = 0; j < a[i]; j++)
-                {
-                    s += '.';
-                }
-                s += 'Q';
-                for(int j = 0; j < maxDep-(a[i]+1); j++)
-                {
-                    s += '.';
-                }
-                ans.push_back(s);
-            }
-            ret.push_back(ans);
-            
+            for(int i = 0;i < cur.size();i++)
+                for(int j = 0;j < cur.size();j++)
+                    if(cur[i][j] == 'L')  cur[i][j] = '.';
+            res.push_back(cur);
             return;
         }
-        
-        for(int i = 0; i < maxDep; i++)
+        for(int i = 0;i < cur.size();i++)
         {
-            if (canUse[i] && check(i,dep))
+            if(cur[i][n] == '.')
             {
-                canUse[i] = false;
-                a[dep] = i;
-                solve(dep + 1,maxDep);
-                canUse[i] = true;             
+                vector<string> tmp = cur;
+                setL(tmp,i,n);
+                search(res,tmp,n+1);
             }
         }
+    }
+    void setL(vector<string> &cur,int x,int y)
+    {
+        for(int i = 0;i < cur.size();i++)
+        {
+            cur[i][y] = 'L';
+            cur[x][i] = 'L';
+        }
+        int i = 0;
+        while(x+i < cur.size() || x-i >= 0 || y+i < cur.size() || y-i >= 0)
+        {
+            if(x+i < cur.size() && y+i < cur.size())
+                cur[x+i][y+i] = 'L';
+            if(x-i >= 0 && y-i >= 0)
+                cur[x-i][y-i] = 'L';
+            if(x+i < cur.size() && y-i >= 0)
+                cur[x+i][y-i] = 'L';
+            if(x-i >= 0 && y+i < cur.size())
+            cur[x-i][y+i] = 'L';
+            i++;
+        }
+        cur[x][y] = 'Q';
     }
 };
