@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int singleNumber(int A[], int n) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int bit[33] = {0};
+        for(int i = 0;i < n;i++)
+        {
+            unsigned tmp = A[i],j = 0;
+            if(A[i] < 0)
+            {
+                tmp = ~(tmp-1);
+                bit[32]++;
+            }
+            while(tmp != 0)
+            {
+                bit[j] += tmp & 1;
+                tmp = tmp >> 1;
+                j++;
+            }
+        }
+        unsigned res = 0;
+        for(int i = 31;i >= 0;i--)
+        {
+            res = res << 1;
+            res += bit[i]%3;
+        }
+        if(bit[32]%3 == 1) return -res;
+        else return res;
+    }
+};
