@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<string> wordBreak(string s, unordered_set<string> &dict) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        vector<int> dp(s.size()+1,0);
+        wordBreak(s,dict,dp);
+        vector<string> res;
+        if(s == "") return res;
+        string tmp = "";
+        int n = 0;
+        for(unordered_set<string>::iterator iter = dict.begin(); iter != dict.end(); iter++)
+            n = max(n,(int)(*iter).size());
+        dfs(res,s,dict,tmp,dp,0,0,n);
+        return res;
+    }
+    void dfs(vector<string> &res,string &s,unordered_set<string> &dict,string tmp,vector<int> &dp,int b,int t,int n)
+    {
+        if(dp[b] == 0 || t-b >= n) return;
+        if(t == s.size() && b == s.size())
+        {
+            res.push_back(tmp.substr(0,tmp.size()-1));
+            return;
+        }
+        else if(t == s.size()) return;
+        dfs(res,s,dict,tmp,dp,b,t+1,n);
+        if(dict.find(s.substr(b,t-b+1)) != dict.end())
+        {
+            tmp += s.substr(b,t-b+1)+' ';
+            dfs(res,s,dict,tmp,dp,t+1,t+1,n);
+        }
+    }
+    void wordBreak(string s, unordered_set<string> &dict,vector<int> &dp) 
+    {
+        dp[s.size()] = 1;
+        for(int i = s.size()-1;i >= 0;i--)
+            for(int j = i;j < s.size();j++)
+                if(dict.find(s.substr(i,j-i+1)) != dict.end() && dp[j+1] == 1)
+                {    
+                    dp[i] = 1;
+                    break;
+                }
+    }
+};
