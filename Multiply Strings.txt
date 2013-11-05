@@ -3,28 +3,18 @@ public:
     string multiply(string num1, string num2) {
 	// Start typing your C/C++ solution below
 	// DO NOT write int main() function
-	string ans(num1.size()+num2.size()+1,'0');
-	reverse(num1.begin(),num1.end());
-	reverse(num2.begin(),num2.end());
-	for (int digIdx2 = 0;digIdx2 < num2.size();digIdx2++)
+	vector<int> mul(num1.size()+num2.size(),0);
+	for(int i = 0;i < num1.size();i++)
+	    for(int j = 0;j < num2.size();j++)
+	        mul[i+j+1] += (num1[i]-'0')*(num2[j]-'0');
+	int jinwei = 0;
+	string res = "";
+	for(int i = mul.size()-1;i >= 0;i--)
 	{
-        int dig2 = num2[digIdx2]-'0';
-        int carry = 0;
-        for (int digIdx1 = 0;digIdx1 < num1.size();digIdx1++)
-        {
-            int dig1 = num1[digIdx1]-'0';
-            int tmp = ans[digIdx1+digIdx2]-'0';
-            int sum_cur = carry+dig1*dig2+tmp;
-            ans[digIdx1+digIdx2] = sum_cur%10+'0';
-            carry = sum_cur/10;
-        }
-        ans[digIdx2+num1.size()] = carry+'0';	
-    }
-    reverse(ans.begin(),ans.end());
-    int posStart = ans.find_first_not_of('0');
-    if(posStart < 0 || posStart >= ans.size())
-        posStart = ans.size()-1;
-    int len = ans.size()-posStart;
-    return ans.substr(posStart,len);
+	    res = (char)((mul[i]+jinwei)%10+'0')+res;
+	    jinwei = (mul[i]+jinwei)/10;
+	}
+	while(res[0] == '0' && res.size() > 1) res = res.substr(1,res.size()-1);
+	return res;
     }
 };
